@@ -1,0 +1,226 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
+ */
+package controller;
+
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.stage.Stage;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+
+/**
+ * FXML Controller class
+ *
+ * @author bfc27
+ */
+public class MenuController implements Initializable {
+
+    @FXML
+    private Label arrow1;
+
+    @FXML
+    private Label arrow2;
+
+    @FXML
+    private Label arrow3;
+
+    @FXML
+    private Label arrow4;
+
+    @FXML
+    private HBox menuItem1;
+
+    @FXML
+    private HBox menuItem2;
+
+    @FXML
+    private HBox menuItem3;
+
+    @FXML
+    private HBox menuItem4;
+
+    @FXML
+    private ImageView imgReiPreto;
+
+    @FXML
+    private ImageView imgReiBranco;
+
+    @FXML
+    private Button ajuda;
+
+    @FXML
+    private Button jogarIA;
+
+    @FXML
+    private Button jogarLocal;
+
+    @FXML
+    private Button opcoes;
+
+    @FXML
+    private Button sair;
+
+    @FXML
+    private BorderPane menu;
+
+    private String temaPecas = "Normal";
+    private String temaTabuleiro = "Blue";
+
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        menu.sceneProperty().addListener((obs, oldScene, newScene) -> {
+            if (newScene != null) {
+                // Limpa e aplica o CSS so quando carregar a scene
+                newScene.getStylesheets().clear();
+                newScene.getStylesheets().add(getClass().getResource("/resources/styles/styles.css").toExternalForm());
+            }
+        });
+
+        arrow1.setOpacity(0);
+        menuItem1.setOnMouseEntered(e -> arrow1.setOpacity(1));
+        menuItem1.setOnMouseExited(e -> arrow1.setOpacity(0));
+
+        arrow2.setOpacity(0);
+        menuItem2.setOnMouseEntered(e -> arrow2.setOpacity(1));
+        menuItem2.setOnMouseExited(e -> arrow2.setOpacity(0));
+
+        arrow3.setOpacity(0);
+        menuItem3.setOnMouseEntered(e -> arrow3.setOpacity(1));
+        menuItem3.setOnMouseExited(e -> arrow3.setOpacity(0));
+
+        arrow4.setOpacity(0);
+        menuItem4.setOnMouseEntered(e -> arrow4.setOpacity(1));
+        menuItem4.setOnMouseExited(e -> arrow4.setOpacity(0));
+    }
+
+    @FXML
+    public void handleJogarLocal(ActionEvent event) throws IOException {
+        //tocar.play();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/BoardView.fxml"));
+        Parent root = loader.load();
+
+        // Criar o novo stage (janela)
+        Stage stage = new Stage();
+        stage.setTitle("Jogo");
+        stage.setScene(new Scene(root));
+
+        // Mostrar a nova janela
+        stage.show();
+    }
+
+    public void handleSair(ActionEvent event) {
+        // Fecha a janela atual e termina a aplicação
+        Stage stage = (Stage) sair.getScene().getWindow(); // Obtém a janela atual
+        stage.close(); // Fecha a janela
+    }
+
+    @FXML
+    public void handleOpcoes(ActionEvent event) {
+        // Array de temas de peças
+        String[] temasPecas = {"Normal", "Outline", "Wood"};
+        String[] tabuleiros = {"Blue", "Brown", "Green"};
+
+        // Dialog para peças
+        javafx.scene.control.ChoiceDialog<String> dialogPecas = new javafx.scene.control.ChoiceDialog<>(temasPecas[0], temasPecas);
+        dialogPecas.setTitle("Escolher Tema de Peças");
+        dialogPecas.setHeaderText("Escolha o tema das peças");
+        dialogPecas.setContentText("Temas disponíveis:");
+
+        dialogPecas.showAndWait().ifPresent(escolhidoPeca -> {
+            temaPecas = escolhidoPeca;
+
+            // Depois de escolher peças, pede o tema do tabuleiro
+            javafx.scene.control.ChoiceDialog<String> dialogTab = new javafx.scene.control.ChoiceDialog<>(tabuleiros[0], tabuleiros);
+            dialogTab.setTitle("Escolher Tema de Tabuleiro");
+            dialogTab.setHeaderText("Escolha o tema do tabuleiro");
+            dialogTab.setContentText("Temas disponíveis:");
+
+            dialogTab.showAndWait().ifPresent(escolhidoTabuleiro -> {
+                temaTabuleiro = escolhidoTabuleiro;
+
+                //atualizar
+                aplicarTemaPecas(temaPecas);
+                aplicarTemaTabuleiro(temaTabuleiro);
+            });
+        });
+    }
+
+    public void aplicarTemaPecas(String temaPeca) {
+        String base = "/resources/img/" + temaPeca.toLowerCase() + "/";
+        String reiBrancoPath = base + "white_King.png";
+        String reiPretoPath = base + "black_King.png";
+
+        // DEBUG
+        System.out.println("A tentar carregar: " + reiBrancoPath + " e " + reiPretoPath);
+
+        // Rei
+        try {
+            Image ReiBranco = new Image(getClass().getResourceAsStream(reiBrancoPath));
+            imgReiPreto.setImage(ReiBranco);
+        } catch (Exception e) {
+            System.err.println("Erro ao carregar a imagem do Rei: " + reiBrancoPath);
+            e.printStackTrace();
+        }
+        // Rainha
+        try {
+            Image Rainha = new Image(getClass().getResourceAsStream(reiPretoPath));
+            imgReiBranco.setImage(Rainha);
+        } catch (Exception e) {
+            System.err.println("Erro ao carregar a imagem da Rainha: " + reiPretoPath);
+            e.printStackTrace();
+        }
+    }
+
+    public void aplicarTemaTabuleiro(String tema) {
+        temaTabuleiro = "/resources/img/Boards/" + tema.toLowerCase() + ".png";
+
+        // DEBUG
+        System.out.println("Ficheiro para tabuleiro: " + temaTabuleiro);
+
+        // mudar fundo do menu (azul, castanho, verde)
+        switch (tema) {
+            case "Blue":
+                menu.getScene().getStylesheets().clear();
+                menu.getScene().getStylesheets().add(getClass().getResource("/resources/styles/styles_blue.css").toExternalForm());
+                break;
+
+            case "Brown":
+                //fica igual (default)
+                menu.getScene().getStylesheets().clear();
+                menu.getScene().getStylesheets().add(getClass().getResource("/resources/styles/styles.css").toExternalForm());
+                break;
+
+            case "Green":
+                menu.getScene().getStylesheets().clear();
+                menu.getScene().getStylesheets().add(getClass().getResource("/resources/styles/styles_green.css").toExternalForm());
+                break;
+        }
+    }
+
+    // Getters para usar em outro sitio se preciso
+    public String getTemaPecas() {
+        return temaPecas;
+    }
+
+    public String getTemaTabuleiro() {
+        return temaTabuleiro;
+    }
+}

@@ -20,25 +20,14 @@ public class Pawn extends Piece {
         if (this.color.equals("black") && targetRow == this.row - 1 && targetCol == this.col) {
             return true;
         }
+        
+        // Se na diagonal para a frente houver um peao da outra cor IMPLEMENTAR
         return false;
     }
     
     @Override
     public List<int[]> getValidMoves() {
         List<int[]> validMoves = new ArrayList<>();
-
-        int direction = (getColor().equals("white")) ? -1 : 1; // Direção para frente depende da cor
-
-        // Movimento básico para frente
-        if (getRow() + direction >= 0 && getRow() + direction < 8) {
-            validMoves.add(new int[]{getRow() + direction, getCol()});
-        }
-
-        // Movimento de captura (diagonal)
-        if (getRow() + direction >= 0 && getRow() + direction < 8) {
-            if (getCol() - 1 >= 0) validMoves.add(new int[]{getRow() + direction, getCol() - 1});
-            if (getCol() + 1 < 8) validMoves.add(new int[]{getRow() + direction, getCol() + 1});
-        }
 
         return validMoves;
     }

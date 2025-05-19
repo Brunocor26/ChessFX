@@ -1,5 +1,6 @@
 package controller;
 
+import java.net.URISyntaxException;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -14,10 +15,15 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import javafx.scene.Node;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
-public class MainViewController implements Initializable {
+public class BoardController implements Initializable {
 
     @FXML
     private GridPane boardGrid;
@@ -28,23 +34,56 @@ public class MainViewController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
+        String[] cores = {"white", "black"};
         // Inicializa as peças
-        for(int i=0; i<=7; i++){
-            addPiece(new Pawn("white", 6, i));
-            addPiece(new Pawn("black", 1, i));
+        for (int i = 0; i <= 7; i++) {
+            addPiece(new Pawn(cores[0], 6, i));
+            addPiece(new Pawn(cores[1], 1, i));
         }
+
+        //torres
+        addPiece(new Rook(cores[1], 0, 0));
+        addPiece(new Rook(cores[1], 0, 7));
+
+        addPiece(new Rook(cores[0], 7, 7));
+        addPiece(new Rook(cores[0], 7, 0));
+
+        //cavalos
+        addPiece(new Knight(cores[1], 0, 1));
+        addPiece(new Knight(cores[1], 0, 6));
+
+        addPiece(new Knight(cores[0], 7, 1));
+        addPiece(new Knight(cores[0], 7, 6));
+
+        //bispos
+        addPiece(new Bishop(cores[1], 0, 2));
+        addPiece(new Bishop(cores[1], 0, 5));
+
+        addPiece(new Bishop(cores[0], 7, 2));
+        addPiece(new Bishop(cores[0], 7, 5));
+
+        //rainhas
+        addPiece(new Queen(cores[1], 0, 3));
+
+        addPiece(new Queen(cores[0], 7, 3));
+
+        //rei
+        addPiece(new King(cores[1], 0, 4));
+
+        addPiece(new King(cores[0], 7, 4));
     }
 
     // Método para adicionar uma peça ao tabuleiro e atualizar a matriz
     private void addPiece(Piece piece) {
         int row = piece.getRow();
         int col = piece.getCol();
-        
+
         // Atualiza a posição da peça na matriz de peças
         board[row][col] = piece;
 
         // Lógica para adicionar a peça ao GridPane
-        ImageView pieceImageView = new ImageView("/resources/img/"+piece.getImageName());
+        ImageView pieceImageView = new ImageView("/resources/img/" + piece.getImageName());
         pieceImageView.setFitWidth(60);
         pieceImageView.setFitHeight(60);
         pieceImageView.setPreserveRatio(true);
@@ -81,7 +120,7 @@ public class MainViewController implements Initializable {
                 movePiece(selectedPiece, row, col);
             }
             selectedPiece = null; // Desmarcar a peça após o movimento
-             // Limpar células destacadas
+            // Limpar células destacadas
         }
     }
 
@@ -92,17 +131,21 @@ public class MainViewController implements Initializable {
 
     // Método para mover uma peça
     private void movePiece(Piece piece, int targetRow, int targetCol) {
-        // Remover a peça da posição anterior
+        // Remove imagem da célula anterior
+        StackPane oldCell = (StackPane) boardGrid.getChildren().get(piece.getRow() * 8 + piece.getCol());
+        oldCell.getChildren().clear();
+
+        // Remover a peça da posição anterior na matriz
         board[piece.getRow()][piece.getCol()] = null;
 
         // Atualizar a posição da peça
         piece.setRow(targetRow);
         piece.setCol(targetCol);
 
-        // Atualizar a matriz e a interface do usuário
+        // Atualizar a matriz
         board[targetRow][targetCol] = piece;
 
-        // Atualiza a imagem da peça na nova posição
+        // Adiciona a imagem na nova célula
         addPiece(piece);
     }
 
