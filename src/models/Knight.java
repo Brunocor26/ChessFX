@@ -7,7 +7,7 @@ public class Knight extends Piece {
 
     // Construtor
     public Knight(String color, int row, int col) {
-        super("knight", color, row, col);
+        super("Knight", color, row, col);
     }
 
     @Override

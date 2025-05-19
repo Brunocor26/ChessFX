@@ -1,7 +1,5 @@
 package controller;
 
-import java.net.URISyntaxException;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.input.MouseEvent;
@@ -10,166 +8,182 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import models.*;
-
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.*;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.image.Image;
 
 public class BoardController implements Initializable {
 
     @FXML
+    private BorderPane pane;
+
+    @FXML
+    private Label turnoLabel;
+
+    @FXML
     private GridPane boardGrid;
 
-    private Piece[][] board = new Piece[8][8]; // Matriz para armazenar as peças no tabuleiro
-    private Piece selectedPiece = null; // Variável para manter a peça selecionada
-    private List<StackPane> highlightedCells = new ArrayList<>(); // Lista de células destacadas
+    private String temaPecas = "";
+    private String temaTabuleiro = "board";
+
+    private Boolean turnoBranco = true;
+    private Piece[][] board = new Piece[8][8];
+    private Piece selectedPiece = null;
+    private List<StackPane> highlightedCells = new ArrayList<>();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
+        // Aplica CSS do tema quando a scene está pronta
+        pane.sceneProperty().addListener((obs, oldScene, newScene) -> {
+            if (newScene != null) {
+                aplicarTemaTabuleiro();
+            }
+        });
+    }
+
+    public void inicializarTabuleiro() {
         String[] cores = {"white", "black"};
-        // Inicializa as peças
         for (int i = 0; i <= 7; i++) {
             addPiece(new Pawn(cores[0], 6, i));
             addPiece(new Pawn(cores[1], 1, i));
         }
-
-        //torres
         addPiece(new Rook(cores[1], 0, 0));
         addPiece(new Rook(cores[1], 0, 7));
-
         addPiece(new Rook(cores[0], 7, 7));
         addPiece(new Rook(cores[0], 7, 0));
-
-        //cavalos
         addPiece(new Knight(cores[1], 0, 1));
         addPiece(new Knight(cores[1], 0, 6));
-
         addPiece(new Knight(cores[0], 7, 1));
         addPiece(new Knight(cores[0], 7, 6));
-
-        //bispos
         addPiece(new Bishop(cores[1], 0, 2));
         addPiece(new Bishop(cores[1], 0, 5));
-
         addPiece(new Bishop(cores[0], 7, 2));
         addPiece(new Bishop(cores[0], 7, 5));
-
-        //rainhas
         addPiece(new Queen(cores[1], 0, 3));
-
         addPiece(new Queen(cores[0], 7, 3));
-
-        //rei
         addPiece(new King(cores[1], 0, 4));
-
         addPiece(new King(cores[0], 7, 4));
     }
 
-    // Método para adicionar uma peça ao tabuleiro e atualizar a matriz
     private void addPiece(Piece piece) {
         int row = piece.getRow();
         int col = piece.getCol();
-
-        // Atualiza a posição da peça na matriz de peças
         board[row][col] = piece;
-
-        // Lógica para adicionar a peça ao GridPane
-        ImageView pieceImageView = new ImageView("/resources/img/" + piece.getImageName());
+        String imagePath = "/resources/img/" + temaPecas + "/" + piece.getImageName();
+        Image image = new Image(getClass().getResourceAsStream(imagePath));
+        ImageView pieceImageView = new ImageView(image);
         pieceImageView.setFitWidth(60);
         pieceImageView.setFitHeight(60);
         pieceImageView.setPreserveRatio(true);
-
-        // Pega o StackPane da célula correspondente e adiciona a imagem
         StackPane cell = (StackPane) boardGrid.getChildren().get(row * 8 + col);
         cell.getChildren().add(pieceImageView);
     }
 
-    // Método para verificar a peça em uma posição específica no tabuleiro
     private Piece getPieceAtPosition(int row, int col) {
-        return board[row][col]; // Retorna a peça na posição (row, col) ou null se não houver peça
+        return board[row][col];
     }
 
-    // Método para lidar com o clique do jogador na célula do tabuleiro
     @FXML
     private void onCellClicked(MouseEvent event) {
-        // Obtenha a célula clicada
-        StackPane clickedCell = (StackPane) event.getSource();
+        System.out.println("Carregado!");
+        // Começa no nó que originou o evento
+        Node node = (Node) event.getSource();
+        // Sobe até encontrar o StackPane
+        while (node != null && !(node instanceof StackPane)) {
+            node = node.getParent();
+        }
+        if (node == null) {
+            return; // Defensive: não era suposto!
+        }
+        StackPane clickedCell = (StackPane) node;
 
-        // Obtenha a linha e coluna da célula clicada
-        int row = GridPane.getRowIndex(clickedCell);
-        int col = GridPane.getColumnIndex(clickedCell);
+        Integer row = GridPane.getRowIndex(clickedCell);
+        Integer col = GridPane.getColumnIndex(clickedCell);
 
-        // Se não houver peça selecionada, selecione a peça clicada
+        row = (row == null) ? 0 : row;
+        col = (col == null) ? 0 : col;
+
         if (selectedPiece == null) {
             selectedPiece = getPieceAtPosition(row, col);
             if (selectedPiece != null) {
-                highlightValidMoves(selectedPiece); // Destacar os movimentos válidos da peça
+                highlightValidMoves(selectedPiece);
             }
         } else {
-            // Se já houver uma peça selecionada, verifique se o movimento é válido
             if (isValidMove(selectedPiece, row, col)) {
                 movePiece(selectedPiece, row, col);
             }
-            selectedPiece = null; // Desmarcar a peça após o movimento
-            // Limpar células destacadas
+            selectedPiece = null;
+            clearHighlights();
         }
     }
 
-    // Método para verificar se o movimento é válido para uma peça
     public boolean isValidMove(Piece piece, int targetRow, int targetCol) {
-        return piece.isValidMove(targetRow, targetCol); //so vai buscar a superclasse piece
+        return piece.isValidMove(targetRow, targetCol);
     }
 
-    // Método para mover uma peça
     private void movePiece(Piece piece, int targetRow, int targetCol) {
-        // Remove imagem da célula anterior
         StackPane oldCell = (StackPane) boardGrid.getChildren().get(piece.getRow() * 8 + piece.getCol());
         oldCell.getChildren().clear();
-
-        // Remover a peça da posição anterior na matriz
         board[piece.getRow()][piece.getCol()] = null;
-
-        // Atualizar a posição da peça
         piece.setRow(targetRow);
         piece.setCol(targetCol);
-
-        // Atualizar a matriz
         board[targetRow][targetCol] = piece;
-
-        // Adiciona a imagem na nova célula
         addPiece(piece);
     }
 
-    // Método para destacar as células válidas de movimento
     private void highlightValidMoves(Piece piece) {
-        // Limpa células destacadas antigas
-        //ainda nao fiz
-
-        // Obter movimentos válidos da peça
+        clearHighlights();
         List<int[]> validMoves = piece.getValidMoves();
-
-        // Para cada movimento válido, destacar a célula correspondente
         for (int[] move : validMoves) {
             int targetRow = move[0];
             int targetCol = move[1];
-
-            // Pega o StackPane da célula correspondente
             StackPane targetCell = (StackPane) boardGrid.getChildren().get(targetRow * 8 + targetCol);
-
-            // Cria um retângulo semi-transparente para destacar a célula
-            Rectangle highlight = new Rectangle(60, 60, Color.rgb(0, 255, 0, 0.3)); // Verde claro com transparência
+            Rectangle highlight = new Rectangle(60, 60, Color.rgb(0, 255, 0, 0.3));
             targetCell.getChildren().add(highlight);
-            highlightedCells.add(targetCell); // Adiciona à lista de células destacadas
+            highlightedCells.add(targetCell);
         }
     }
 
+    private void clearHighlights() {
+        for (StackPane cell : highlightedCells) {
+            if (cell.getChildren().size() > 1) {
+                cell.getChildren().remove(cell.getChildren().size() - 1);
+            }
+        }
+        highlightedCells.clear();
+    }
+
+    public void receberTemaPecas(String tema) {
+        this.temaPecas = tema;
+    }
+
+    public void receberTemaTabuleiro(String tema) {
+        this.temaTabuleiro = tema;
+        aplicarTemaTabuleiro();
+    }
+
+    private void aplicarTemaTabuleiro() {
+        System.out.println(temaTabuleiro);
+        try {
+            String path = "/resources/styles/";
+            String ficheiro = "board";
+            if (temaTabuleiro.equals("Blue")) {
+                ficheiro = "board_blue";
+            } else if (temaTabuleiro.equals("Green")) {
+                ficheiro = "board_green";
+            }
+            if (pane.getScene() != null) {
+                pane.getScene().getStylesheets().clear();
+                System.out.println(path + ficheiro + ".css");
+                pane.getScene().getStylesheets().add(getClass().getResource(path + ficheiro + ".css").toExternalForm());
+            }
+        } catch (Exception e) {
+            System.err.println("Erro a aplicar CSS do tema: " + e.getMessage());
+        }
+    }
 }

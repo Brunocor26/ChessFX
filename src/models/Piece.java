@@ -15,7 +15,7 @@ public abstract class Piece {
         this.color = color;
         this.row = row;
         this.col = col;
-        this.imageName = color + "-" + type + ".png"; // Exemplo: "white-pawn.png" para peão branco
+        this.imageName = color + "_" + type + ".png"; // Exemplo: "white-pawn.png" para peão branco
     }
 
     // Getters e Setters

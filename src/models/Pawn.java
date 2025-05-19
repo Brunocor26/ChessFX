@@ -7,7 +7,7 @@ public class Pawn extends Piece {
     
      // Construtor
     public Pawn(String color, int row, int col) {
-        super("pawn", color, row, col);
+        super("Pawn", color, row, col);
     }
     
     @Override

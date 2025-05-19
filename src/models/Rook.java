@@ -7,7 +7,7 @@ public class Rook extends Piece {
 
     // Construtor
     public Rook(String color, int row, int col) {
-        super("rook", color, row, col);
+        super("Rook", color, row, col);
     }
 
     @Override

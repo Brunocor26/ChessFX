@@ -12,6 +12,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -81,8 +82,8 @@ public class MenuController implements Initializable {
     @FXML
     private BorderPane menu;
 
-    private String temaPecas = "Normal";
-    private String temaTabuleiro = "Blue";
+    private String temaPecas = "normal";
+    private String temaTabuleiro = "Brown";
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -121,6 +122,15 @@ public class MenuController implements Initializable {
         Stage stage = new Stage();
         stage.setTitle("Jogo");
         stage.setScene(new Scene(root));
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/img/"+ temaPecas.toLowerCase() + "/black_Rook.png")));
+        BoardController controller = loader.getController();
+
+        controller.receberTemaPecas(temaPecas);
+        controller.receberTemaTabuleiro(temaTabuleiro);
+        controller.inicializarTabuleiro(); //aqui para garantir que ja tem o tema e peças corretos
+
+        Stage stageAtual = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stageAtual.close();
 
         // Mostrar a nova janela
         stage.show();
@@ -164,6 +174,7 @@ public class MenuController implements Initializable {
     }
 
     public void aplicarTemaPecas(String temaPeca) {
+        temaPecas = temaPeca.toLowerCase();
         String base = "/resources/img/" + temaPeca.toLowerCase() + "/";
         String reiBrancoPath = base + "white_King.png";
         String reiPretoPath = base + "black_King.png";
@@ -190,10 +201,6 @@ public class MenuController implements Initializable {
     }
 
     public void aplicarTemaTabuleiro(String tema) {
-        temaTabuleiro = "/resources/img/Boards/" + tema.toLowerCase() + ".png";
-
-        // DEBUG
-        System.out.println("Ficheiro para tabuleiro: " + temaTabuleiro);
 
         // mudar fundo do menu (azul, castanho, verde)
         switch (tema) {

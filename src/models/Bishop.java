@@ -7,7 +7,7 @@ public class Bishop extends Piece {
 
     // Construtor
     public Bishop(String color, int row, int col) {
-        super("bishop", color, row, col);
+        super("Bishop", color, row, col);
     }
 
     @Override
