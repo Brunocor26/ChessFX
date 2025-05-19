@@ -1,0 +1,52 @@
+@font-face {
+    font-family: "Press Start 2P";
+    src: url("../fonts/PressStart2P-Regular.ttf"); /* certifica-te de que o .ttf está em /resources/fonts */
+}
+
+/* Estilo base azul */
+.root {
+    -fx-background-color: #80ffff;
+    -fx-font-family: "Press Start 2P";
+    -fx-text-fill: #12486b;
+    -fx-text-transform: uppercase;
+}
+
+/* Título */
+#title-label {
+    -fx-font-size: 40px;
+    -fx-text-fill: #12486b;    /* azul escuro para contraste */
+    -fx-padding: 40 0 20 0;
+    -fx-effect: dropshadow(gaussian, rgba(0, 64, 120, 0.6), 10, 0.4, 2, 2);
+}
+
+/* Esconde seta por defeito */
+.arrow {
+    -fx-text-fill: #0086b3;   /* azul médio */
+    -fx-opacity: 0;
+    -fx-font-size: 30px;
+    -fx-translate-x: 10;
+}
+
+/* Quando o rato passa por cima do botão, mostra a seta */
+.menu-item:hover .arrow {
+    -fx-opacity: 1;
+}
+
+.btn{
+    -fx-background-color: #12486b;        /* azul escuro */
+    -fx-border-radius: 0;
+    -fx-font-size: 13px;
+    -fx-padding: 10 20;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0, 64, 120, 0.4), 4, 0.3, 1, 1);
+    -fx-background-insets: 0;
+    -fx-border-insets: 0;
+    -fx-text-fill: #e2fcff;               /* branco azulado para botões */
+    -fx-border-color: transparent;
+}
+
+.btn:hover {
+    -fx-background-color: rgba(18, 72, 107, 0.15);  /* azul escuro transparente */
+    -fx-text-fill: #0086b3;        /* azul médio */
+    -fx-border-color: #0086b3;     /* azul médio */
+}
