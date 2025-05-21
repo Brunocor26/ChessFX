@@ -27,7 +27,7 @@
                             <Font size="22.0" />
                         </font>
                     </Label>
-                    <Button fx:id="jogarIA" prefHeight="45.0" prefWidth="200.0" styleClass="btn" text="Jogo vs IA">
+                    <Button fx:id="jogarIA" onAction="#handleJogarIA" prefHeight="45.0" prefWidth="200.0" styleClass="btn" text="Jogo vs IA">
                   <font>
                      <Font size="15.0" />
                   </font></Button>

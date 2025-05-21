@@ -14,84 +14,84 @@
         <GridPane fx:id="boardGrid" alignment="CENTER">
             <!-- Tabuleiro 8x8, cada casa é um StackPane com Rectangle com a styleClass correta -->
             <!-- Linha 0 -->
-            <StackPane GridPane.columnIndex="0" GridPane.rowIndex="0"><Rectangle height="80" styleClass="quadradosClaros" width="80" /></StackPane>
-            <StackPane GridPane.columnIndex="1" GridPane.rowIndex="0"><Rectangle height="80" styleClass="quadradosEscuro" width="80" /></StackPane>
-            <StackPane GridPane.columnIndex="2" GridPane.rowIndex="0"><Rectangle height="80" styleClass="quadradosClaros" width="80" /></StackPane>
-            <StackPane GridPane.columnIndex="3" GridPane.rowIndex="0"><Rectangle height="80" styleClass="quadradosEscuro" width="80" /></StackPane>
-            <StackPane GridPane.columnIndex="4" GridPane.rowIndex="0"><Rectangle height="80" styleClass="quadradosClaros" width="80" /></StackPane>
-            <StackPane GridPane.columnIndex="5" GridPane.rowIndex="0"><Rectangle height="80" styleClass="quadradosEscuro" width="80" /></StackPane>
-            <StackPane GridPane.columnIndex="6" GridPane.rowIndex="0"><Rectangle height="80" styleClass="quadradosClaros" width="80" /></StackPane>
-            <StackPane GridPane.columnIndex="7" GridPane.rowIndex="0"><Rectangle height="80" styleClass="quadradosEscuro" width="80" /></StackPane>
+            <StackPane onMouseClicked="#onCellClicked" GridPane.columnIndex="0" GridPane.rowIndex="0"><Rectangle height="80" styleClass="quadradosClaros" width="80" /></StackPane>
+            <StackPane onMouseClicked="#onCellClicked" GridPane.columnIndex="1" GridPane.rowIndex="0"><Rectangle height="80" styleClass="quadradosEscuro" width="80" /></StackPane>
+            <StackPane onMouseClicked="#onCellClicked" GridPane.columnIndex="2" GridPane.rowIndex="0"><Rectangle height="80" styleClass="quadradosClaros" width="80" /></StackPane>
+            <StackPane onMouseClicked="#onCellClicked" GridPane.columnIndex="3" GridPane.rowIndex="0"><Rectangle height="80" styleClass="quadradosEscuro" width="80" /></StackPane>
+            <StackPane onMouseClicked="#onCellClicked" GridPane.columnIndex="4" GridPane.rowIndex="0"><Rectangle height="80" styleClass="quadradosClaros" width="80" /></StackPane>
+            <StackPane onMouseClicked="#onCellClicked" GridPane.columnIndex="5" GridPane.rowIndex="0"><Rectangle height="80" styleClass="quadradosEscuro" width="80" /></StackPane>
+            <StackPane onMouseClicked="#onCellClicked" GridPane.columnIndex="6" GridPane.rowIndex="0"><Rectangle height="80" styleClass="quadradosClaros" width="80" /></StackPane>
+            <StackPane onMouseClicked="#onCellClicked" GridPane.columnIndex="7" GridPane.rowIndex="0"><Rectangle height="80" styleClass="quadradosEscuro" width="80" /></StackPane>
 
             <!-- Linha 1 -->
-            <StackPane GridPane.columnIndex="0" GridPane.rowIndex="1"><Rectangle height="80" styleClass="quadradosEscuro" width="80" /></StackPane>
-            <StackPane GridPane.columnIndex="1" GridPane.rowIndex="1"><Rectangle height="80" styleClass="quadradosClaros" width="80" /></StackPane>
-            <StackPane GridPane.columnIndex="2" GridPane.rowIndex="1"><Rectangle height="80" styleClass="quadradosEscuro" width="80" /></StackPane>
-            <StackPane GridPane.columnIndex="3" GridPane.rowIndex="1"><Rectangle height="80" styleClass="quadradosClaros" width="80" /></StackPane>
-            <StackPane GridPane.columnIndex="4" GridPane.rowIndex="1"><Rectangle height="80" styleClass="quadradosEscuro" width="80" /></StackPane>
-            <StackPane GridPane.columnIndex="5" GridPane.rowIndex="1"><Rectangle height="80" styleClass="quadradosClaros" width="80" /></StackPane>
-            <StackPane GridPane.columnIndex="6" GridPane.rowIndex="1"><Rectangle height="80" styleClass="quadradosEscuro" width="80" /></StackPane>
-            <StackPane GridPane.columnIndex="7" GridPane.rowIndex="1"><Rectangle height="80" styleClass="quadradosClaros" width="80" /></StackPane>
+            <StackPane onMouseClicked="#onCellClicked" GridPane.columnIndex="0" GridPane.rowIndex="1"><Rectangle height="80" styleClass="quadradosEscuro" width="80" /></StackPane>
+            <StackPane onMouseClicked="#onCellClicked" GridPane.columnIndex="1" GridPane.rowIndex="1"><Rectangle height="80" styleClass="quadradosClaros" width="80" /></StackPane>
+            <StackPane onMouseClicked="#onCellClicked" GridPane.columnIndex="2" GridPane.rowIndex="1"><Rectangle height="80" styleClass="quadradosEscuro" width="80" /></StackPane>
+            <StackPane onMouseClicked="#onCellClicked" GridPane.columnIndex="3" GridPane.rowIndex="1"><Rectangle height="80" styleClass="quadradosClaros" width="80" /></StackPane>
+            <StackPane onMouseClicked="#onCellClicked" GridPane.columnIndex="4" GridPane.rowIndex="1"><Rectangle height="80" styleClass="quadradosEscuro" width="80" /></StackPane>
+            <StackPane onMouseClicked="#onCellClicked" GridPane.columnIndex="5" GridPane.rowIndex="1"><Rectangle height="80" styleClass="quadradosClaros" width="80" /></StackPane>
+            <StackPane onMouseClicked="#onCellClicked" GridPane.columnIndex="6" GridPane.rowIndex="1"><Rectangle height="80" styleClass="quadradosEscuro" width="80" /></StackPane>
+            <StackPane onMouseClicked="#onCellClicked" GridPane.columnIndex="7" GridPane.rowIndex="1"><Rectangle height="80" styleClass="quadradosClaros" width="80" /></StackPane>
             
             <!-- Linha 2 -->
-            <StackPane GridPane.columnIndex="0" GridPane.rowIndex="2"><Rectangle height="80" styleClass="quadradosClaros" width="80" /></StackPane>
-            <StackPane GridPane.columnIndex="1" GridPane.rowIndex="2"><Rectangle height="80" styleClass="quadradosEscuro" width="80" /></StackPane>
-            <StackPane GridPane.columnIndex="2" GridPane.rowIndex="2"><Rectangle height="80" styleClass="quadradosClaros" width="80" /></StackPane>
-            <StackPane GridPane.columnIndex="3" GridPane.rowIndex="2"><Rectangle height="80" styleClass="quadradosEscuro" width="80" /></StackPane>
-            <StackPane GridPane.columnIndex="4" GridPane.rowIndex="2"><Rectangle height="80" styleClass="quadradosClaros" width="80" /></StackPane>
-            <StackPane GridPane.columnIndex="5" GridPane.rowIndex="2"><Rectangle height="80" styleClass="quadradosEscuro" width="80" /></StackPane>
-            <StackPane GridPane.columnIndex="6" GridPane.rowIndex="2"><Rectangle height="80" styleClass="quadradosClaros" width="80" /></StackPane>
-            <StackPane GridPane.columnIndex="7" GridPane.rowIndex="2"><Rectangle height="80" styleClass="quadradosEscuro" width="80" /></StackPane>
+            <StackPane onMouseClicked="#onCellClicked" GridPane.columnIndex="0" GridPane.rowIndex="2"><Rectangle height="80" styleClass="quadradosClaros" width="80" /></StackPane>
+            <StackPane onMouseClicked="#onCellClicked" GridPane.columnIndex="1" GridPane.rowIndex="2"><Rectangle height="80" styleClass="quadradosEscuro" width="80" /></StackPane>
+            <StackPane onMouseClicked="#onCellClicked" GridPane.columnIndex="2" GridPane.rowIndex="2"><Rectangle height="80" styleClass="quadradosClaros" width="80" /></StackPane>
+            <StackPane onMouseClicked="#onCellClicked" GridPane.columnIndex="3" GridPane.rowIndex="2"><Rectangle height="80" styleClass="quadradosEscuro" width="80" /></StackPane>
+            <StackPane onMouseClicked="#onCellClicked" GridPane.columnIndex="4" GridPane.rowIndex="2"><Rectangle height="80" styleClass="quadradosClaros" width="80" /></StackPane>
+            <StackPane onMouseClicked="#onCellClicked" GridPane.columnIndex="5" GridPane.rowIndex="2"><Rectangle height="80" styleClass="quadradosEscuro" width="80" /></StackPane>
+            <StackPane onMouseClicked="#onCellClicked" GridPane.columnIndex="6" GridPane.rowIndex="2"><Rectangle height="80" styleClass="quadradosClaros" width="80" /></StackPane>
+            <StackPane onMouseClicked="#onCellClicked" GridPane.columnIndex="7" GridPane.rowIndex="2"><Rectangle height="80" styleClass="quadradosEscuro" width="80" /></StackPane>
 
             <!-- Linha 3 -->
-            <StackPane GridPane.columnIndex="0" GridPane.rowIndex="3"><Rectangle height="80" styleClass="quadradosEscuro" width="80" /></StackPane>
-            <StackPane GridPane.columnIndex="1" GridPane.rowIndex="3"><Rectangle height="80" styleClass="quadradosClaros" width="80" /></StackPane>
-            <StackPane GridPane.columnIndex="2" GridPane.rowIndex="3"><Rectangle height="80" styleClass="quadradosEscuro" width="80" /></StackPane>
-            <StackPane GridPane.columnIndex="3" GridPane.rowIndex="3"><Rectangle height="80" styleClass="quadradosClaros" width="80" /></StackPane>
-            <StackPane GridPane.columnIndex="4" GridPane.rowIndex="3"><Rectangle height="80" styleClass="quadradosEscuro" width="80" /></StackPane>
-            <StackPane GridPane.columnIndex="5" GridPane.rowIndex="3"><Rectangle height="80" styleClass="quadradosClaros" width="80" /></StackPane>
-            <StackPane GridPane.columnIndex="6" GridPane.rowIndex="3"><Rectangle height="80" styleClass="quadradosEscuro" width="80" /></StackPane>
-            <StackPane GridPane.columnIndex="7" GridPane.rowIndex="3"><Rectangle height="80" styleClass="quadradosClaros" width="80" /></StackPane>
+            <StackPane onMouseClicked="#onCellClicked" GridPane.columnIndex="0" GridPane.rowIndex="3"><Rectangle height="80" styleClass="quadradosEscuro" width="80" /></StackPane>
+            <StackPane onMouseClicked="#onCellClicked" GridPane.columnIndex="1" GridPane.rowIndex="3"><Rectangle height="80" styleClass="quadradosClaros" width="80" /></StackPane>
+            <StackPane onMouseClicked="#onCellClicked" GridPane.columnIndex="2" GridPane.rowIndex="3"><Rectangle height="80" styleClass="quadradosEscuro" width="80" /></StackPane>
+            <StackPane onMouseClicked="#onCellClicked" GridPane.columnIndex="3" GridPane.rowIndex="3"><Rectangle height="80" styleClass="quadradosClaros" width="80" /></StackPane>
+            <StackPane onMouseClicked="#onCellClicked" GridPane.columnIndex="4" GridPane.rowIndex="3"><Rectangle height="80" styleClass="quadradosEscuro" width="80" /></StackPane>
+            <StackPane onMouseClicked="#onCellClicked" GridPane.columnIndex="5" GridPane.rowIndex="3"><Rectangle height="80" styleClass="quadradosClaros" width="80" /></StackPane>
+            <StackPane onMouseClicked="#onCellClicked" GridPane.columnIndex="6" GridPane.rowIndex="3"><Rectangle height="80" styleClass="quadradosEscuro" width="80" /></StackPane>
+            <StackPane onMouseClicked="#onCellClicked" GridPane.columnIndex="7" GridPane.rowIndex="3"><Rectangle height="80" styleClass="quadradosClaros" width="80" /></StackPane>
             
             <!-- Linha 4 -->
-            <StackPane GridPane.columnIndex="0" GridPane.rowIndex="4"><Rectangle height="80" styleClass="quadradosClaros" width="80" /></StackPane>
-            <StackPane GridPane.columnIndex="1" GridPane.rowIndex="4"><Rectangle height="80" styleClass="quadradosEscuro" width="80" /></StackPane>
-            <StackPane GridPane.columnIndex="2" GridPane.rowIndex="4"><Rectangle height="80" styleClass="quadradosClaros" width="80" /></StackPane>
-            <StackPane GridPane.columnIndex="3" GridPane.rowIndex="4"><Rectangle height="80" styleClass="quadradosEscuro" width="80" /></StackPane>
-            <StackPane GridPane.columnIndex="4" GridPane.rowIndex="4"><Rectangle height="80" styleClass="quadradosClaros" width="80" /></StackPane>
-            <StackPane GridPane.columnIndex="5" GridPane.rowIndex="4"><Rectangle height="80" styleClass="quadradosEscuro" width="80" /></StackPane>
-            <StackPane GridPane.columnIndex="6" GridPane.rowIndex="4"><Rectangle height="80" styleClass="quadradosClaros" width="80" /></StackPane>
-            <StackPane GridPane.columnIndex="7" GridPane.rowIndex="4"><Rectangle height="80" styleClass="quadradosEscuro" width="80" /></StackPane>
+            <StackPane onMouseClicked="#onCellClicked" GridPane.columnIndex="0" GridPane.rowIndex="4"><Rectangle height="80" styleClass="quadradosClaros" width="80" /></StackPane>
+            <StackPane onMouseClicked="#onCellClicked" GridPane.columnIndex="1" GridPane.rowIndex="4"><Rectangle height="80" styleClass="quadradosEscuro" width="80" /></StackPane>
+            <StackPane onMouseClicked="#onCellClicked" GridPane.columnIndex="2" GridPane.rowIndex="4"><Rectangle height="80" styleClass="quadradosClaros" width="80" /></StackPane>
+            <StackPane onMouseClicked="#onCellClicked" GridPane.columnIndex="3" GridPane.rowIndex="4"><Rectangle height="80" styleClass="quadradosEscuro" width="80" /></StackPane>
+            <StackPane onMouseClicked="#onCellClicked" GridPane.columnIndex="4" GridPane.rowIndex="4"><Rectangle height="80" styleClass="quadradosClaros" width="80" /></StackPane>
+            <StackPane onMouseClicked="#onCellClicked" GridPane.columnIndex="5" GridPane.rowIndex="4"><Rectangle height="80" styleClass="quadradosEscuro" width="80" /></StackPane>
+            <StackPane onMouseClicked="#onCellClicked" GridPane.columnIndex="6" GridPane.rowIndex="4"><Rectangle height="80" styleClass="quadradosClaros" width="80" /></StackPane>
+            <StackPane onMouseClicked="#onCellClicked" GridPane.columnIndex="7" GridPane.rowIndex="4"><Rectangle height="80" styleClass="quadradosEscuro" width="80" /></StackPane>
 
             <!-- Linha 5 -->
-            <StackPane GridPane.columnIndex="0" GridPane.rowIndex="5"><Rectangle height="80" styleClass="quadradosEscuro" width="80" /></StackPane>
-            <StackPane GridPane.columnIndex="1" GridPane.rowIndex="5"><Rectangle height="80" styleClass="quadradosClaros" width="80" /></StackPane>
-            <StackPane GridPane.columnIndex="2" GridPane.rowIndex="5"><Rectangle height="80" styleClass="quadradosEscuro" width="80" /></StackPane>
-            <StackPane GridPane.columnIndex="3" GridPane.rowIndex="5"><Rectangle height="80" styleClass="quadradosClaros" width="80" /></StackPane>
-            <StackPane GridPane.columnIndex="4" GridPane.rowIndex="5"><Rectangle height="80" styleClass="quadradosEscuro" width="80" /></StackPane>
-            <StackPane GridPane.columnIndex="5" GridPane.rowIndex="5"><Rectangle height="80" styleClass="quadradosClaros" width="80" /></StackPane>
-            <StackPane GridPane.columnIndex="6" GridPane.rowIndex="5"><Rectangle height="80" styleClass="quadradosEscuro" width="80" /></StackPane>
-            <StackPane GridPane.columnIndex="7" GridPane.rowIndex="5"><Rectangle height="80" styleClass="quadradosClaros" width="80" /></StackPane>
+            <StackPane onMouseClicked="#onCellClicked" GridPane.columnIndex="0" GridPane.rowIndex="5"><Rectangle height="80" styleClass="quadradosEscuro" width="80" /></StackPane>
+            <StackPane onMouseClicked="#onCellClicked" GridPane.columnIndex="1" GridPane.rowIndex="5"><Rectangle height="80" styleClass="quadradosClaros" width="80" /></StackPane>
+            <StackPane onMouseClicked="#onCellClicked" GridPane.columnIndex="2" GridPane.rowIndex="5"><Rectangle height="80" styleClass="quadradosEscuro" width="80" /></StackPane>
+            <StackPane onMouseClicked="#onCellClicked" GridPane.columnIndex="3" GridPane.rowIndex="5"><Rectangle height="80" styleClass="quadradosClaros" width="80" /></StackPane>
+            <StackPane onMouseClicked="#onCellClicked" GridPane.columnIndex="4" GridPane.rowIndex="5"><Rectangle height="80" styleClass="quadradosEscuro" width="80" /></StackPane>
+            <StackPane onMouseClicked="#onCellClicked" GridPane.columnIndex="5" GridPane.rowIndex="5"><Rectangle height="80" styleClass="quadradosClaros" width="80" /></StackPane>
+            <StackPane onMouseClicked="#onCellClicked" GridPane.columnIndex="6" GridPane.rowIndex="5"><Rectangle height="80" styleClass="quadradosEscuro" width="80" /></StackPane>
+            <StackPane onMouseClicked="#onCellClicked" GridPane.columnIndex="7" GridPane.rowIndex="5"><Rectangle height="80" styleClass="quadradosClaros" width="80" /></StackPane>
             
             <!-- Linha 6 -->
-            <StackPane GridPane.columnIndex="0" GridPane.rowIndex="6"><Rectangle height="80" onMouseClicked="#onCellClicked" styleClass="quadradosClaros" width="80" /></StackPane>
-            <StackPane GridPane.columnIndex="1" GridPane.rowIndex="6"><Rectangle height="80" styleClass="quadradosEscuro" width="80" /></StackPane>
-            <StackPane GridPane.columnIndex="2" GridPane.rowIndex="6"><Rectangle height="80" styleClass="quadradosClaros" width="80" /></StackPane>
-            <StackPane GridPane.columnIndex="3" GridPane.rowIndex="6"><Rectangle height="80" styleClass="quadradosEscuro" width="80" /></StackPane>
-            <StackPane GridPane.columnIndex="4" GridPane.rowIndex="6"><Rectangle height="80" styleClass="quadradosClaros" width="80" /></StackPane>
-            <StackPane GridPane.columnIndex="5" GridPane.rowIndex="6"><Rectangle height="80" styleClass="quadradosEscuro" width="80" /></StackPane>
-            <StackPane GridPane.columnIndex="6" GridPane.rowIndex="6"><Rectangle height="80" styleClass="quadradosClaros" width="80" /></StackPane>
-            <StackPane GridPane.columnIndex="7" GridPane.rowIndex="6"><Rectangle height="80" styleClass="quadradosEscuro" width="80" /></StackPane>
+            <StackPane onMouseClicked="#onCellClicked" GridPane.columnIndex="0" GridPane.rowIndex="6"><Rectangle height="80" onMouseClicked="#onCellClicked" styleClass="quadradosClaros" width="80" /></StackPane>
+            <StackPane onMouseClicked="#onCellClicked" GridPane.columnIndex="1" GridPane.rowIndex="6"><Rectangle height="80" styleClass="quadradosEscuro" width="80" /></StackPane>
+            <StackPane onMouseClicked="#onCellClicked" GridPane.columnIndex="2" GridPane.rowIndex="6"><Rectangle height="80" styleClass="quadradosClaros" width="80" /></StackPane>
+            <StackPane onMouseClicked="#onCellClicked" GridPane.columnIndex="3" GridPane.rowIndex="6"><Rectangle height="80" styleClass="quadradosEscuro" width="80" /></StackPane>
+            <StackPane onMouseClicked="#onCellClicked" GridPane.columnIndex="4" GridPane.rowIndex="6"><Rectangle height="80" styleClass="quadradosClaros" width="80" /></StackPane>
+            <StackPane onMouseClicked="#onCellClicked" GridPane.columnIndex="5" GridPane.rowIndex="6"><Rectangle height="80" styleClass="quadradosEscuro" width="80" /></StackPane>
+            <StackPane onMouseClicked="#onCellClicked" GridPane.columnIndex="6" GridPane.rowIndex="6"><Rectangle height="80" styleClass="quadradosClaros" width="80" /></StackPane>
+            <StackPane onMouseClicked="#onCellClicked" GridPane.columnIndex="7" GridPane.rowIndex="6"><Rectangle height="80" styleClass="quadradosEscuro" width="80" /></StackPane>
             
             <!-- Linha 7 -->
-            <StackPane GridPane.columnIndex="0" GridPane.rowIndex="7"><Rectangle height="80" styleClass="quadradosEscuro" width="80" /></StackPane>
-            <StackPane GridPane.columnIndex="1" GridPane.rowIndex="7"><Rectangle height="80" styleClass="quadradosClaros" width="80" /></StackPane>
-            <StackPane GridPane.columnIndex="2" GridPane.rowIndex="7"><Rectangle height="80" styleClass="quadradosEscuro" width="80" /></StackPane>
-            <StackPane GridPane.columnIndex="3" GridPane.rowIndex="7"><Rectangle height="80" styleClass="quadradosClaros" width="80" /></StackPane>
-            <StackPane GridPane.columnIndex="4" GridPane.rowIndex="7"><Rectangle height="80" styleClass="quadradosEscuro" width="80" /></StackPane>
-            <StackPane GridPane.columnIndex="5" GridPane.rowIndex="7"><Rectangle height="80" styleClass="quadradosClaros" width="80" /></StackPane>
-            <StackPane GridPane.columnIndex="6" GridPane.rowIndex="7"><Rectangle height="80" styleClass="quadradosEscuro" width="80" /></StackPane>
-            <StackPane GridPane.columnIndex="7" GridPane.rowIndex="7"><Rectangle height="80" styleClass="quadradosClaros" width="80" /></StackPane>
+            <StackPane onMouseClicked="#onCellClicked" GridPane.columnIndex="0" GridPane.rowIndex="7"><Rectangle height="80" styleClass="quadradosEscuro" width="80" /></StackPane>
+            <StackPane onMouseClicked="#onCellClicked" GridPane.columnIndex="1" GridPane.rowIndex="7"><Rectangle height="80" styleClass="quadradosClaros" width="80" /></StackPane>
+            <StackPane onMouseClicked="#onCellClicked" GridPane.columnIndex="2" GridPane.rowIndex="7"><Rectangle height="80" styleClass="quadradosEscuro" width="80" /></StackPane>
+            <StackPane onMouseClicked="#onCellClicked" GridPane.columnIndex="3" GridPane.rowIndex="7"><Rectangle height="80" styleClass="quadradosClaros" width="80" /></StackPane>
+            <StackPane onMouseClicked="#onCellClicked" GridPane.columnIndex="4" GridPane.rowIndex="7"><Rectangle height="80" styleClass="quadradosEscuro" width="80" /></StackPane>
+            <StackPane onMouseClicked="#onCellClicked" GridPane.columnIndex="5" GridPane.rowIndex="7"><Rectangle height="80" styleClass="quadradosClaros" width="80" /></StackPane>
+            <StackPane onMouseClicked="#onCellClicked" GridPane.columnIndex="6" GridPane.rowIndex="7"><Rectangle height="80" styleClass="quadradosEscuro" width="80" /></StackPane>
+            <StackPane onMouseClicked="#onCellClicked" GridPane.columnIndex="7" GridPane.rowIndex="7"><Rectangle height="80" styleClass="quadradosClaros" width="80" /></StackPane>
          <columnConstraints>
             <ColumnConstraints />
             <ColumnConstraints />

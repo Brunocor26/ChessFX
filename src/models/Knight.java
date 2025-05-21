@@ -11,28 +11,27 @@ public class Knight extends Piece {
     }
 
     @Override
-    public boolean isValidMove(int targetRow, int targetCol) {
-        // O cavalo se move em um padrão de "L" (2 casas em uma direção e 1 na perpendicular)
-        int rowDiff = Math.abs(targetRow - this.row);
-        int colDiff = Math.abs(targetCol - this.col);
-        return (rowDiff == 2 && colDiff == 1) || (rowDiff == 1 && colDiff == 2);
-    }
-    
-    @Override
-    public List<int[]> getValidMoves() {
+    public List<int[]> getValidMoves(Piece[][] board) {
         List<int[]> validMoves = new ArrayList<>();
 
-        int direction = (getColor().equals("white")) ? -1 : 1; // Direção para frente depende da cor
+        int[][] moves = {
+            {-2, -1}, {-2, 1},
+            {-1, -2}, {-1, 2},
+            {1, -2}, {1, 2},
+            {2, -1}, {2, 1}
+        };
 
-        // Movimento básico para frente
-        if (getRow() + direction >= 0 && getRow() + direction < 8) {
-            validMoves.add(new int[]{getRow() + direction, getCol()});
-        }
+        for (int[] move : moves) {
+            int newRow = this.row + move[0];
+            int newCol = this.col + move[1];
 
-        // Movimento de captura (diagonal)
-        if (getRow() + direction >= 0 && getRow() + direction < 8) {
-            if (getCol() - 1 >= 0) validMoves.add(new int[]{getRow() + direction, getCol() - 1});
-            if (getCol() + 1 < 8) validMoves.add(new int[]{getRow() + direction, getCol() + 1});
+            if (isInBounds(newRow, newCol)) {
+                Piece p = board[newRow][newCol];
+                // Pode mover se a casa estiver vazia ou com peça adversária
+                if (p == null || !p.getColor().equals(this.color)) {
+                    validMoves.add(new int[]{newRow, newCol});
+                }
+            }
         }
 
         return validMoves;
