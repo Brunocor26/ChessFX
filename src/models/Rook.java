@@ -11,28 +11,35 @@ public class Rook extends Piece {
     }
 
     @Override
-    public boolean isValidMove(int targetRow, int targetCol) {
-        // A torre pode mover-se apenas na mesma linha ou coluna
-        return this.row == targetRow || this.col == targetCol;
-    }
-    
-    @Override
-    public List<int[]> getValidMoves() {
+    public List<int[]> getValidMoves(Piece[][] board) {
         List<int[]> validMoves = new ArrayList<>();
 
-        int direction = (getColor().equals("white")) ? -1 : 1; // Direção para frente depende da cor
+        int[][] directions = {
+            {-1, 0}, // cima
+            {1, 0}, // baixo
+            {0, -1}, // esquerda
+            {0, 1} // direita
+        };
 
-        // Movimento básico para frente
-        if (getRow() + direction >= 0 && getRow() + direction < 8) {
-            validMoves.add(new int[]{getRow() + direction, getCol()});
-        }
+        for (int[] dir : directions) {
+            int r = row + dir[0];
+            int c = col + dir[1];
 
-        // Movimento de captura (diagonal)
-        if (getRow() + direction >= 0 && getRow() + direction < 8) {
-            if (getCol() - 1 >= 0) validMoves.add(new int[]{getRow() + direction, getCol() - 1});
-            if (getCol() + 1 < 8) validMoves.add(new int[]{getRow() + direction, getCol() + 1});
+            while (r >= 0 && r < 8 && c >= 0 && c < 8) {
+                if (board[r][c] == null) {
+                    validMoves.add(new int[]{r, c});
+                } else {
+                    if (!board[r][c].getColor().equals(this.color)) {
+                        validMoves.add(new int[]{r, c}); // captura
+                    }
+                    break; // bloqueado por peça
+                }
+                r += dir[0];
+                c += dir[1];
+            }
         }
 
         return validMoves;
     }
+
 }

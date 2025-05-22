@@ -58,10 +58,11 @@ public abstract class Piece {
     public void setImageName(String imageName) {
         this.imageName = imageName;
     }
-
-    // Metodo abstrato para verificar se o movimento é válido
-    public abstract boolean isValidMove(int targetRow, int targetCol);
     
     // Metodo abstrato para devolver os movimentos validos numa lista
-    public abstract List<int[]> getValidMoves();
+    public abstract List<int[]> getValidMoves(Piece[][] board);
+    
+    public boolean isInBounds(int r, int c) {
+        return r >= 0 && r < 8 && c >= 0 && c < 8;
+    }
 }

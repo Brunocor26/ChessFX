@@ -11,28 +11,27 @@ public class King extends Piece {
     }
 
     @Override
-    public boolean isValidMove(int targetRow, int targetCol) {
-        // O rei pode mover-se uma casa em qualquer direção
-        return Math.abs(targetRow - this.row) <= 1 && Math.abs(targetCol - this.col) <= 1;
-    }
-    
-    @Override
-    public List<int[]> getValidMoves() {
+    public List<int[]> getValidMoves(Piece[][] board) {
         List<int[]> validMoves = new ArrayList<>();
 
-        int direction = (getColor().equals("white")) ? -1 : 1; // Direção para frente depende da cor
+        int[][] moves = {
+            {-1, 0}, {1, 0}, {0, -1}, {0, 1},
+            {-1, -1}, {-1, 1}, {1, -1}, {1, 1}
+        };
 
-        // Movimento básico para frente
-        if (getRow() + direction >= 0 && getRow() + direction < 8) {
-            validMoves.add(new int[]{getRow() + direction, getCol()});
-        }
+        for (int[] move : moves) {
+            int r = row + move[0];
+            int c = col + move[1];
 
-        // Movimento de captura (diagonal)
-        if (getRow() + direction >= 0 && getRow() + direction < 8) {
-            if (getCol() - 1 >= 0) validMoves.add(new int[]{getRow() + direction, getCol() - 1});
-            if (getCol() + 1 < 8) validMoves.add(new int[]{getRow() + direction, getCol() + 1});
+            if (r >= 0 && r < 8 && c >= 0 && c < 8) {
+                Piece p = board[r][c];
+                if (p == null || !p.getColor().equals(this.color)) {
+                    validMoves.add(new int[]{r, c});
+                }
+            }
         }
 
         return validMoves;
     }
+
 }

@@ -85,6 +85,9 @@ public class MenuController implements Initializable {
     private String temaPecas = "normal";
     private String temaTabuleiro = "Brown";
 
+    Media som = new Media(getClass().getResource("/resources/sound/trumpet.wav").toExternalForm());
+    MediaPlayer player = new MediaPlayer(som);
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         menu.sceneProperty().addListener((obs, oldScene, newScene) -> {
@@ -113,8 +116,8 @@ public class MenuController implements Initializable {
     }
 
     @FXML
-    public void handleJogarLocal(ActionEvent event) throws IOException {
-        //tocar.play();
+    public void handleJogarIA(ActionEvent event) throws IOException { //ia da moves aleatorios
+        player.play();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/BoardView.fxml"));
         Parent root = loader.load();
 
@@ -122,7 +125,32 @@ public class MenuController implements Initializable {
         Stage stage = new Stage();
         stage.setTitle("Jogo");
         stage.setScene(new Scene(root));
-        stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/img/"+ temaPecas.toLowerCase() + "/black_Rook.png")));
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/img/" + temaPecas.toLowerCase() + "/black_Rook.png")));
+        BoardController controller = loader.getController();
+
+        controller.receberTemaPecas(temaPecas);
+        controller.receberTemaTabuleiro(temaTabuleiro);
+        controller.jogarVSIA(true);
+        controller.inicializarTabuleiro(); //aqui para garantir que ja tem o tema e peças corretos
+
+        Stage stageAtual = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stageAtual.close();
+
+        // Mostrar a nova janela
+        stage.show();
+    }
+
+    @FXML
+    public void handleJogarLocal(ActionEvent event) throws IOException {
+        player.play();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/BoardView.fxml"));
+        Parent root = loader.load();
+
+        // Criar o novo stage (janela)
+        Stage stage = new Stage();
+        stage.setTitle("Jogo");
+        stage.setScene(new Scene(root));
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/img/" + temaPecas.toLowerCase() + "/black_Rook.png")));
         BoardController controller = loader.getController();
 
         controller.receberTemaPecas(temaPecas);

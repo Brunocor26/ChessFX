@@ -5,6 +5,12 @@
         <group>
             <file>file:/C:/Users/bfc27/OneDrive/Documentos/NetBeansProjects/ChessFX/src/controller/BoardController.java</file>
             <file>file:/C:/Users/bfc27/OneDrive/Documentos/NetBeansProjects/ChessFX/src/controller/MenuController.java</file>
+            <file>file:/C:/Users/bfc27/OneDrive/Documentos/NetBeansProjects/ChessFX/src/models/Pawn.java</file>
+            <file>file:/C:/Users/bfc27/OneDrive/Documentos/NetBeansProjects/ChessFX/src/models/Knight.java</file>
+            <file>file:/C:/Users/bfc27/OneDrive/Documentos/NetBeansProjects/ChessFX/src/models/Queen.java</file>
+            <file>file:/C:/Users/bfc27/OneDrive/Documentos/NetBeansProjects/ChessFX/src/models/Piece.java</file>
+            <file>file:/C:/Users/bfc27/OneDrive/Documentos/NetBeansProjects/ChessFX/src/models/Bishop.java</file>
+            <file>file:/C:/Users/bfc27/OneDrive/Documentos/NetBeansProjects/ChessFX/src/models/King.java</file>
         </group>
     </open-files>
 </project-private>
