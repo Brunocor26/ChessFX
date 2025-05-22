@@ -1,313 +1,331 @@
 package controller;
 
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import models.*;
-import java.net.URL;
-import java.util.*;
-import javafx.scene.Node;
-import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
+import javafx.fxml.*;
+import javafx.scene.*;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
+import models.*;
+
+import java.net.URL;
+import java.util.*;
 
 public class BoardController implements Initializable {
 
-    @FXML
-    private BorderPane pane;
+    /* ---------- FXML ---------- */
+    @FXML private BorderPane pane;
+    @FXML private GridPane   boardGrid;
+    @FXML private Label      turnoLabel;
 
-    @FXML
-    private Label turnoLabel;
+    /* ---------- Estado ---------- */
+    private final Piece[][] board = new Piece[8][8];
+    private Piece   selectedPiece = null;
+    private final List<StackPane> highlightedCells = new ArrayList<>();
 
-    @FXML
-    private GridPane boardGrid;
+    private String  temaPecas      = "normal";
+    private String  temaTabuleiro  = "Brown";
+    private boolean turnoBranco    = true;
+    private boolean vsIa           = false;
+    private boolean gameOver       = false;
 
-    private String temaPecas = "";
-    private String temaTabuleiro = "board";
-
-    private Boolean turnoBranco = true;  //define em que turno está
-    private Boolean vsIa = false; //se é contra ia ou nao
-
-    // Sons
+    /* ---------- Som ---------- */
     private Media somMexer;
     private Media somCaptura;
 
-    private Piece[][] board = new Piece[8][8];
-    private Piece selectedPiece = null;
-    private List<StackPane> highlightedCells = new ArrayList<>();
-
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    /* ---------- INIT ---------- */
+    @Override public void initialize(URL url, ResourceBundle rb) {
         try {
-            somMexer = new Media(getClass().getResource("/resources/sound/moving.mp3").toExternalForm());
+            somMexer   = new Media(getClass().getResource("/resources/sound/moving.mp3").toExternalForm());
             somCaptura = new Media(getClass().getResource("/resources/sound/capture.mp3").toExternalForm());
-        } catch (Exception e) {
-            System.err.println("Erro a carregar sons: " + e.getMessage());
-        }
+        } catch (Exception e) { System.err.println("Erro sons: "+e.getMessage()); }
 
-        // Aplica CSS do tema quando a scene está pronta
-        pane.sceneProperty().addListener((obs, oldScene, newScene) -> {
-            if (newScene != null) {
-                aplicarTemaTabuleiro();
-            }
-        });
+        pane.sceneProperty().addListener((obs,o,n) -> { if (n!=null) aplicarTemaTabuleiro(); });
     }
 
+    /* ---------- Setup Peças ---------- */
     public void inicializarTabuleiro() {
-        String[] cores = {"white", "black"};
-        for (int i = 0; i <= 7; i++) {
-            addPiece(new Pawn(cores[0], 6, i));
-            addPiece(new Pawn(cores[1], 1, i));
+        String[] cor = {"white","black"};
+        for (int c=0;c<8;c++){
+            addPiece(new Pawn(cor[0],6,c));
+            addPiece(new Pawn(cor[1],1,c));
         }
-        addPiece(new Rook(cores[1], 0, 0));
-        addPiece(new Rook(cores[1], 0, 7));
-        addPiece(new Rook(cores[0], 7, 7));
-        addPiece(new Rook(cores[0], 7, 0));
-        addPiece(new Knight(cores[1], 0, 1));
-        addPiece(new Knight(cores[1], 0, 6));
-        addPiece(new Knight(cores[0], 7, 1));
-        addPiece(new Knight(cores[0], 7, 6));
-        addPiece(new Bishop(cores[1], 0, 2));
-        addPiece(new Bishop(cores[1], 0, 5));
-        addPiece(new Bishop(cores[0], 7, 2));
-        addPiece(new Bishop(cores[0], 7, 5));
-        addPiece(new Queen(cores[1], 0, 3));
-        addPiece(new Queen(cores[0], 7, 3));
-        addPiece(new King(cores[1], 0, 4));
-        addPiece(new King(cores[0], 7, 4));
+        addPiece(new Rook  (cor[1],0,0)); addPiece(new Rook  (cor[1],0,7));
+        addPiece(new Rook  (cor[0],7,0)); addPiece(new Rook  (cor[0],7,7));
+        addPiece(new Knight(cor[1],0,1)); addPiece(new Knight(cor[1],0,6));
+        addPiece(new Knight(cor[0],7,1)); addPiece(new Knight(cor[0],7,6));
+        addPiece(new Bishop(cor[1],0,2)); addPiece(new Bishop(cor[1],0,5));
+        addPiece(new Bishop(cor[0],7,2)); addPiece(new Bishop(cor[0],7,5));
+        addPiece(new Queen (cor[1],0,3)); addPiece(new Queen (cor[0],7,3));
+        addPiece(new King  (cor[1],0,4)); addPiece(new King  (cor[0],7,4));
     }
 
-    private void addPiece(Piece piece) {
-        int row = piece.getRow();
-        int col = piece.getCol();
-        board[row][col] = piece;
-        String imagePath = "/resources/img/" + temaPecas + "/" + piece.getImageName();
-        Image image = new Image(getClass().getResourceAsStream(imagePath));
-        ImageView pieceImageView = new ImageView(image);
-        pieceImageView.setFitWidth(60);
-        pieceImageView.setFitHeight(60);
-        pieceImageView.setPreserveRatio(true);
-        StackPane cell = (StackPane) boardGrid.getChildren().get(row * 8 + col);
-        cell.getChildren().add(pieceImageView);
+    private void addPiece(Piece p){
+        board[p.getRow()][p.getCol()] = p;
+        String img="/resources/img/"+temaPecas.toLowerCase()+"/"+p.getImageName();
+        ImageView iv=new ImageView(new Image(getClass().getResourceAsStream(img)));
+        iv.setFitWidth(60); iv.setFitHeight(60); iv.setPreserveRatio(true);
+        StackPane cell=(StackPane) boardGrid.getChildren().get(p.getRow()*8+p.getCol());
+        cell.getChildren().add(iv);
     }
 
-    private Piece getPieceAtPosition(int row, int col) {
-        return board[row][col];
-    }
+    /* ---------- Clique ---------- */
+    @FXML private void onCellClicked(MouseEvent e){
+        if(gameOver) return;
 
-    @FXML
-    private void onCellClicked(MouseEvent event) {
-        Node clickedNode = (Node) event.getTarget();
+        Node n=(Node)e.getTarget();
+        while(n!=null && !(n instanceof StackPane)) n=n.getParent();
+        if(n==null) return;
 
-        // Encontrar StackPane (célula) clicado
-        while (clickedNode != null && !(clickedNode instanceof StackPane)) {
-            clickedNode = clickedNode.getParent();
-        }
-        if (clickedNode == null) {
-            return;
-        }
+        int idx=boardGrid.getChildren().indexOf(n);
+        int r=idx/8, c=idx%8;
+        Piece p=board[r][c];
 
-        int index = boardGrid.getChildren().indexOf(clickedNode);
-        int row = index / 8;
-        int col = index % 8;
-
-        Piece clickedPiece = getPieceAtPosition(row, col);
-
-        if (clickedPiece != null && clickedPiece.getColor().equals("white") == turnoBranco) {
-            // Seleciona a peça e mostra os movimentos válidos
-            selectedPiece = clickedPiece;
+        if(p!=null && p.getColor().equals(turnoBranco?"white":"black")){
+            selectedPiece=p;
             showValidMoves();
-        } else if (selectedPiece != null) {
-            List<int[]> validMoves = selectedPiece.getValidMoves(board);
-            boolean validMove = false;
-            for (int[] move : validMoves) {
-                if (move[0] == row && move[1] == col) {
-                    validMove = true;
-                    break;
-                }
-            }
-            if (validMove) {
-                movePiece(selectedPiece, row, col);
-                mudarTurno();
-                selectedPiece = null;
-                clearHighlights();
-            }
-        }
-    }
-
-    private void showValidMoves() {
-        clearHighlights();
-
-        if (selectedPiece == null) {
             return;
         }
 
-        List<int[]> validMoves = selectedPiece.getValidMoves(board);
+        if(selectedPiece!=null){
+            for(int[] m:selectedPiece.getValidMoves(board))
+                if(m[0]==r && m[1]==c){
+                    clearHighlights();
+                    movePiece(selectedPiece,r,c);
+                    verificarEstadoJogo();
+                    mudarTurno();
+                    selectedPiece=null;
+                    return;
+                }
+        }
+    }
 
-        for (int[] move : validMoves) {
-            int row = move[0];
-            int col = move[1];
+    /* ---------- Destaques ---------- */
+    private void showValidMoves(){
+        clearHighlights();
+        if(selectedPiece==null) return;
 
-            StackPane cell = (StackPane) boardGrid.getChildren().get(row * 8 + col);
-
-            Rectangle highlight = new Rectangle(cell.getWidth(), cell.getHeight());
-            highlight.setFill(Color.color(1, 1, 0, 0.5)); // amarelo transparente
-            highlight.setMouseTransparent(true);
-            cell.getChildren().add(highlight);
+        for(int[] m:selectedPiece.getValidMoves(board)){
+            StackPane cell=(StackPane) boardGrid.getChildren().get(m[0]*8+m[1]);
+            Rectangle r=new Rectangle(cell.getWidth(),cell.getHeight());
+            r.setFill(Color.web("#ffff00",0.45));
+            r.setMouseTransparent(true);
+            r.getStyleClass().add("highlight");
+            cell.getChildren().add(r);
             highlightedCells.add(cell);
         }
     }
-
-    private void clearHighlights() {
-        for (StackPane cell : highlightedCells) {
-            cell.getChildren().removeIf(node -> node instanceof Rectangle && ((Rectangle) node).getFill().equals(Color.color(1, 1, 0, 0.5)));
-        }
+    private void clearHighlights(){
+        for(StackPane c:highlightedCells)
+            c.getChildren().removeIf(node -> node instanceof Rectangle &&
+                                             node.getStyleClass().contains("highlight"));
         highlightedCells.clear();
     }
 
-    private void tocarSom(Media media) {
-        if (media == null) {
-            return;
-        }
-        MediaPlayer player = new MediaPlayer(media);
-        player.play();
-        player.setOnEndOfMedia(() -> player.dispose());
-    }
+    /* ---------- Movimento ---------- */
+    private void movePiece(Piece p,int r,int c){
+        tocarSom(board[r][c]==null?somMexer:somCaptura);
 
-    private void movePiece(Piece piece, int newRow, int newCol) {
-        Piece destino = board[newRow][newCol];
-        if (destino != null && !destino.getColor().equals(piece.getColor())) {
-            tocarSom(somCaptura);
-        } else {
-            tocarSom(somMexer);
-        }
-
-        // Remover peça da posição antiga
-        StackPane oldCell = (StackPane) boardGrid.getChildren().get(piece.getRow() * 8 + piece.getCol());
+        StackPane oldCell=(StackPane) boardGrid.getChildren().get(p.getRow()*8+p.getCol());
         oldCell.getChildren().removeIf(node -> node instanceof ImageView);
 
-        // Atualizar o tabuleiro lógico
-        board[piece.getRow()][piece.getCol()] = null;
-        piece.setRow(newRow);
-        piece.setCol(newCol);
-
-        // Remover qualquer peça adversária na posição nova
-        StackPane newCell = (StackPane) boardGrid.getChildren().get(newRow * 8 + newCol);
+        StackPane newCell=(StackPane) boardGrid.getChildren().get(r*8+c);
         newCell.getChildren().removeIf(node -> node instanceof ImageView);
-        board[newRow][newCol] = piece;
 
-        // Adicionar imagem da peça na nova célula
-        String imagePath = "/resources/img/" + temaPecas + "/" + piece.getImageName();
-        Image image = new Image(getClass().getResourceAsStream(imagePath));
-        ImageView pieceImageView = new ImageView(image);
-        pieceImageView.setFitWidth(60);
-        pieceImageView.setFitHeight(60);
-        pieceImageView.setPreserveRatio(true);
-        newCell.getChildren().add(pieceImageView);
+        board[p.getRow()][p.getCol()] = null;
+        p.setRow(r); p.setCol(c);
+        board[r][c] = p;
+
+        // Promoção?
+        if(p instanceof Pawn && (r==0 || r==7))
+            promoverPeao((Pawn)p);
+
+        String img="/resources/img/"+temaPecas.toLowerCase()+"/"+p.getImageName();
+        ImageView iv=new ImageView(new Image(getClass().getResourceAsStream(img)));
+        iv.setFitWidth(60); iv.setFitHeight(60); iv.setPreserveRatio(true);
+        newCell.getChildren().add(iv);
     }
 
-    public void receberTemaPecas(String tema) {
-        this.temaPecas = tema;
+    /* ---------- Promoção ---------- */
+    private void promoverPeao(Pawn pawn){
+        Piece nova;
+        if(vsIa && "black".equals(pawn.getColor())){           // IA – sempre rainha
+            nova=new Queen(pawn.getColor(),pawn.getRow(),pawn.getCol());
+        }else{
+            List<String> opcoes=List.of("Queen","Rook","Bishop","Knight");
+            ChoiceDialog<String> dlg=new ChoiceDialog<>("Queen",opcoes);
+            dlg.setTitle("Promoção de Peão");
+            dlg.setHeaderText("Escolha a peça:");
+            String escolha=dlg.showAndWait().orElse("Queen");
+            nova = switch(escolha){
+                case "Rook"   -> new Rook  (pawn.getColor(),pawn.getRow(),pawn.getCol());
+                case "Bishop" -> new Bishop(pawn.getColor(),pawn.getRow(),pawn.getCol());
+                case "Knight" -> new Knight(pawn.getColor(),pawn.getRow(),pawn.getCol());
+                default       -> new Queen (pawn.getColor(),pawn.getRow(),pawn.getCol());
+            };
+        }
+        addPiece(nova);
     }
 
-    public void receberTemaTabuleiro(String tema) {
-        this.temaTabuleiro = tema;
-        aplicarTemaTabuleiro();
-    }
+    /* ---------- Verificar fim ---------- */
+    private void verificarEstadoJogo(){
+        String corOponente = turnoBranco ? "black" : "white";
 
-    private void aplicarTemaTabuleiro() {
-        System.out.println(temaTabuleiro);
-        try {
-            String path = "/resources/styles/";
-            String ficheiro = "board";
-            if (temaTabuleiro.equals("Blue")) {
-                ficheiro = "board_blue";
-            } else if (temaTabuleiro.equals("Green")) {
-                ficheiro = "board_green";
+        if (reiEmCheck(corOponente)) {
+            if (estaEmCheckMate(corOponente)) {
+                fimDeJogo("Xeque-mate! " + (turnoBranco ? "Branco" : "Preto") + " vence.");
+            } else {
+                mostrarMensagem("Xeque ao " + (corOponente.equals("white") ? "Branco" : "Preto") + "!");
             }
-            if (pane.getScene() != null) {
-                pane.getScene().getStylesheets().clear();
-                System.out.println(path + ficheiro + ".css");
-                pane.getScene().getStylesheets().add(getClass().getResource(path + ficheiro + ".css").toExternalForm());
-            }
-        } catch (Exception e) {
-            System.err.println("Erro a aplicar CSS do tema: " + e.getMessage());
         }
     }
 
-    public void mudarTurno() {
-        this.turnoBranco = !turnoBranco;
-        turnoLabel.setText((turnoBranco ? "Turno: Branco" : "Turno: Preto"));
+    private boolean estaEmCheckMate(String color){
+        if(!reiEmCheck(color)) return false;
+        for(int r=0;r<8;r++)
+            for(int c=0;c<8;c++){
+                Piece p=board[r][c];
+                if(p!=null && p.getColor().equals(color))
+                    for(int[] m:p.getValidMoves(board))
+                        if(!deixaReiEmCheck(p,m[0],m[1])) return false;
+            }
+        return true;
+    }
 
-        if (vsIa && !turnoBranco) {  // Se for turno da IA e modo IA ativo
-            // Delay para parecer natural (usar Thread para não bloquear UI)
-            new Thread(() -> {
-                try {
-                    Thread.sleep(500);  // meio segundo de pausa
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+    private boolean reiEmCheck(String color){
+        int kr = -1, kc = -1;
+
+        /* procura o rei dessa cor */
+        for (int r = 0; r < 8; r++)
+            for (int c = 0; c < 8; c++)
+                if (board[r][c] instanceof King) {
+                    King k = (King) board[r][c];
+                    if (k.getColor().equals(color)) { kr = r; kc = c; }
                 }
 
-                javafx.application.Platform.runLater(() -> {
-                    jogadaIA();
-                });
+        if (kr == -1) return true;              // rei desapareceu → já seria mate
+
+        /* vê se alguma peça inimiga o ataca */
+        for (int r = 0; r < 8; r++)
+            for (int c = 0; c < 8; c++) {
+                Piece p = board[r][c];
+                if (p != null && !p.getColor().equals(color))
+                    for (int[] m : p.getValidMoves(board))
+                        if (m[0] == kr && m[1] == kc) return true;
+            }
+        return false;
+    }
+
+    private boolean deixaReiEmCheck(Piece p,int dr,int dc){
+        Piece cap=board[dr][dc];
+        int or=p.getRow(), oc=p.getCol();
+        board[or][oc]=null; board[dr][dc]=p;
+        p.setRow(dr); p.setCol(dc);
+        boolean check=reiEmCheck(p.getColor());
+        p.setRow(or); p.setCol(oc);
+        board[or][oc]=p; board[dr][dc]=cap;
+        return check;
+    }
+
+    /* ---------- UI util ---------- */
+    private void tocarSom(Media m){
+        if(m==null) return;
+        MediaPlayer pl=new MediaPlayer(m);
+        pl.play();
+        pl.setOnEndOfMedia(pl::dispose);
+    }
+
+    private void mostrarMensagem(String txt){
+        Alert a = new Alert(Alert.AlertType.INFORMATION, txt, ButtonType.OK);
+        a.setHeaderText(null);
+        a.show();
+    }
+
+    private void fimDeJogo(String mensagem){
+        gameOver=true;
+        Alert a=new Alert(Alert.AlertType.INFORMATION,mensagem,ButtonType.OK);
+        a.setHeaderText(null);
+        a.showAndWait();
+        voltarAoMenu();
+    }
+
+    private void voltarAoMenu() {
+        try {
+            URL url = getClass().getResource("/view/Menu.fxml");
+            if (url == null) {
+                System.err.println("Menu.fxml não encontrado!");
+                return;
+            }
+            Parent root = FXMLLoader.load(url);
+            Stage stage = (Stage) pane.getScene().getWindow();
+            stage.setScene(new Scene(root));
+        } catch (Exception ex) {
+            System.err.println("Erro ao regressar ao menu: " + ex.getMessage());
+        }
+    }
+
+    /* ---------- Tema / opções vindas do menu ---------- */
+    public void receberTemaPecas(String t){ temaPecas=t; }
+    public void receberTemaTabuleiro(String t){ temaTabuleiro=t; aplicarTemaTabuleiro(); }
+
+    private void aplicarTemaTabuleiro(){
+        try{
+            String css="board";
+            if("Blue".equalsIgnoreCase(temaTabuleiro))  css="board_blue";
+            if("Green".equalsIgnoreCase(temaTabuleiro)) css="board_green";
+
+            if(pane.getScene()!=null){
+                pane.getScene().getStylesheets().clear();
+                pane.getScene().getStylesheets().add(
+                    Objects.requireNonNull(
+                        getClass().getResource("/resources/styles/"+css+".css"))
+                        .toExternalForm());
+            }
+        }catch(Exception ex){ System.err.println("Tema tabuleiro: "+ex.getMessage()); }
+    }
+
+    /* ---------- Turnos & IA ---------- */
+    public void jogarVSIA(boolean b){ vsIa=b; }
+
+    public void mudarTurno(){
+        turnoBranco=!turnoBranco;
+        turnoLabel.setText(turnoBranco?"Turno: Branco":"Turno: Preto");
+
+        if(vsIa && !turnoBranco && !gameOver){
+            new Thread(()->{
+                try{Thread.sleep(500);}catch(Exception ignored){}
+                javafx.application.Platform.runLater(this::jogadaIA);
             }).start();
         }
     }
 
-    private static class Movimento {
-
-        Piece peca;
-        int destinoRow;
-        int destinoCol;
-
-        Movimento(Piece peca, int destinoRow, int destinoCol) {
-            this.peca = peca;
-            this.destinoRow = destinoRow;
-            this.destinoCol = destinoCol;
-        }
+    private static class Movimento{
+        Piece p; int r,c;
+        Movimento(Piece p,int r,int c){ this.p=p; this.r=r; this.c=c; }
     }
 
-    private void jogadaIA() {
-        List<Movimento> movimentosPossiveis = new ArrayList<>();
-
-        // Percorrer todas as peças pretas
-        for (int r = 0; r < 8; r++) {
-            for (int c = 0; c < 8; c++) {
-                Piece p = board[r][c];
-                if (p != null && p.getColor().equals("black")) {
-                    List<int[]> validMoves = p.getValidMoves(board);
-                    for (int[] move : validMoves) {
-                        movimentosPossiveis.add(new Movimento(p, move[0], move[1]));
-                    }
-                }
+    private void jogadaIA(){
+        List<Movimento> lista=new ArrayList<>();
+        for(int r=0;r<8;r++)
+            for(int c=0;c<8;c++){
+                Piece p=board[r][c];
+                if(p!=null && "black".equals(p.getColor()))
+                    for(int[] m:p.getValidMoves(board))
+                        lista.add(new Movimento(p,m[0],m[1]));
             }
-        }
 
-        if (movimentosPossiveis.isEmpty()) {
-            System.out.println("IA não tem movimentos possíveis!");
-            // Aqui poderias detectar xeque-mate ou empate
-            return;
-        }
+        if(lista.isEmpty()){ fimDeJogo("Empate!"); return; }
 
-        // Escolhe movimento aleatório
-        Movimento escolhido = movimentosPossiveis.get(new Random().nextInt(movimentosPossiveis.size()));
-
-        // Executa o movimento
-        movePiece(escolhido.peca, escolhido.destinoRow, escolhido.destinoCol);
-
-        // Muda turno para o humano
+        Movimento esc=lista.get(new Random().nextInt(lista.size()));
+        clearHighlights();
+        movePiece(esc.p,esc.r,esc.c);
+        verificarEstadoJogo();
         mudarTurno();
-    }
-
-    public void jogarVSIA(Boolean res) {
-        this.vsIa = res;
     }
 }
