@@ -1,0 +1,35 @@
+.root, .border-pane, .hbox {
+    -fx-background-color: transparent;
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+    -fx-padding: 0;
+    -fx-effect: null;
+    -fx-border-color: transparent;
+}
+
+/* Botões: invisíveis, só mostram a peça (imagem) */
+.button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+    -fx-border-color: transparent;
+    -fx-padding: 0;
+    -fx-effect: null;
+    -fx-cursor: hand;
+}
+
+/* Peças com sombra subtil para separar do fundo */
+.image-view {
+    -fx-effect: dropshadow(gaussian, #7f553970, 10, 0.18, 0, 2);
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.button:hover .image-view,
+.button:focused .image-view {
+    -fx-scale-x: 1.17;
+    -fx-scale-y: 1.17;
+    -fx-effect: dropshadow(gaussian, #9c664488, 13, 0.32, 0, 2);
+    -fx-cursor: hand;
+    -fx-transition: 0.17s;
+}

@@ -18,26 +18,6 @@
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.8), 8, 0.3, 2, 2);
 }
 
-/* Esconde seta por defeito, usei por ids e nao por classe porque nao funcionava
-#arrow1, #arrow2, #arrow3, #arrow4 {
-    -fx-text-fill: #72390a;
-    -fx-opacity: 0;
-    -fx-font-size: 30px;
-    -fx-translate-x: 10;
-}
-
-cada hover feito por linha
-.menu-item:hover #arrow1 { -fx-opacity: 1; }
-.menu-item:hover #arrow2 { -fx-opacity: 1; }
-.menu-item:hover #arrow3 { -fx-opacity: 1; }
-.menu-item:hover #arrow4 { -fx-opacity: 1; }
-
-Quando o rato passa por cima do botão, mostra a seta
-.menu-item:hover .arrow {
-    -fx-opacity: 1;
-}
-*/
-
 .btn{
     -fx-background-color: #b58863;
     -fx-border-radius: 0;

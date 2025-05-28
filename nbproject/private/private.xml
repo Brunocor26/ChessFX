@@ -3,13 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/bfc27/OneDrive/Documentos/NetBeansProjects/ChessFX/src/resources/styles/board_blue.css</file>
+            <file>file:/C:/Users/bfc27/OneDrive/Documentos/NetBeansProjects/ChessFX/src/resources/styles/board.css</file>
+            <file>file:/C:/Users/bfc27/OneDrive/Documentos/NetBeansProjects/ChessFX/src/resources/styles/board_green.css</file>
+            <file>file:/C:/Users/bfc27/OneDrive/Documentos/NetBeansProjects/ChessFX/src/resources/styles/styles_blue.css</file>
+            <file>file:/C:/Users/bfc27/OneDrive/Documentos/NetBeansProjects/ChessFX/src/resources/styles/styles.css</file>
             <file>file:/C:/Users/bfc27/OneDrive/Documentos/NetBeansProjects/ChessFX/src/controller/BoardController.java</file>
-            <file>file:/C:/Users/bfc27/OneDrive/Documentos/NetBeansProjects/ChessFX/src/controller/MenuController.java</file>
             <file>file:/C:/Users/bfc27/OneDrive/Documentos/NetBeansProjects/ChessFX/src/models/Pawn.java</file>
-            <file>file:/C:/Users/bfc27/OneDrive/Documentos/NetBeansProjects/ChessFX/src/models/Knight.java</file>
-            <file>file:/C:/Users/bfc27/OneDrive/Documentos/NetBeansProjects/ChessFX/src/models/Queen.java</file>
-            <file>file:/C:/Users/bfc27/OneDrive/Documentos/NetBeansProjects/ChessFX/src/models/Piece.java</file>
-            <file>file:/C:/Users/bfc27/OneDrive/Documentos/NetBeansProjects/ChessFX/src/models/Bishop.java</file>
+            <file>file:/C:/Users/bfc27/OneDrive/Documentos/NetBeansProjects/ChessFX/src/models/Rook.java</file>
             <file>file:/C:/Users/bfc27/OneDrive/Documentos/NetBeansProjects/ChessFX/src/models/King.java</file>
         </group>
     </open-files>

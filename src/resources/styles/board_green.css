@@ -3,26 +3,148 @@
     src: url("../fonts/PressStart2P-Regular.ttf");
 }
 
-.root, .border-pane, .pane {
-    -fx-background-color: #90cc34;
-    -fx-font-family: "Press Start 2P";
-    -fx-text-fill: #244700;
-}
-
+/* Casas claras */
 .quadradosClaros {
-    -fx-fill: #d8ffb5;       /* verde muito claro */
-    -fx-stroke: #a0c56b;     /* verde intermédio */
-    -fx-stroke-width: 1.2;
+    -fx-fill: #ECF39E;   /* verde-limão claro da paleta */
 }
 
+/* Casas escuras */
 .quadradosEscuro {
-    -fx-fill: #6faa34;       /* verde médio */
-    -fx-stroke: #244700;     /* verde escuro */
-    -fx-stroke-width: 1.2;
+    -fx-fill: #31572C;   /* verde escuro */
 }
 
-.label, .turnoLabel {
-    -fx-font-size: 18px;
-    -fx-text-fill: #244700;
-    -fx-padding: 12 0 0 0;
+/* Fundo geral */
+.root, .border-pane, .grid-pane {
+    -fx-background-color: #132A13;  /* fundo escuro */
+}
+
+/* Mini-card arredondado, sombra flutuante */
+.border-pane {
+    -fx-background-color: #4F772D;  /* verde médio */
+    -fx-background-radius: 18px;
+    -fx-border-radius: 18px;
+    -fx-effect: dropshadow(gaussian, #31572c44, 16, 0.5, 0, 4);
+    -fx-padding: 24 32 24 32;
+}
+
+/* Label elegante */
+.label {
+    -fx-font-family: "Press Start 2P";
+    -fx-font-size: 20px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #90A955;    /* verde limão (destaque) */
+    -fx-background-color: transparent;
+    -fx-padding: 8 0 16 0;
+    -fx-alignment: center;
+}
+
+/* Grid com espaçamento entre peças */
+.grid-pane {
+    -fx-hgap: 6;
+    -fx-vgap: 6;
+    -fx-padding: 12;
+    -fx-background-color: transparent;
+}
+
+/* Botões de peças (se usados) */
+.button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-min-width: 62px;
+    -fx-min-height: 62px;
+    -fx-max-width: 68px;
+    -fx-max-height: 68px;
+    -fx-background-radius: 40px;
+    -fx-border-radius: 40px;
+    -fx-cursor: hand;
+    -fx-padding: 2;
+    -fx-effect: dropshadow(gaussian, #90a95544, 6, 0.32, 0, 1);
+    -fx-transition: 0.2s;
+}
+
+/* Destaque ao passar ou focar */
+.button:hover, .button:focused {
+    -fx-background-color: #ECF39E;
+    -fx-border-color: #90A955;
+    -fx-border-width: 2px;
+    -fx-effect: dropshadow(gaussian, #90a95566, 12, 0.36, 0, 2);
+    -fx-scale-x: 1.09;
+    -fx-scale-y: 1.09;
+}
+
+/* Peça: sombra e animação */
+.image-view {
+    -fx-effect: dropshadow(gaussian, #4f772d70, 11, 0.40, 0, 2);
+    -fx-background-color: transparent;
+    -fx-padding: 3;
+    -fx-transition: 0.18s;
+}
+.image-view:hover {
+    -fx-effect: dropshadow(gaussian, #90a955aa, 18, 0.55, 0, 3);
+}
+
+/* Cemitérios (VBox) */
+.vbox {
+    -fx-background-color: #4F772Dcc; /* verde médio translúcido */
+    -fx-background-radius: 12px;
+    -fx-padding: 8 8 8 8;
+    -fx-spacing: 5;
+    -fx-effect: dropshadow(gaussian, #31572c44, 8, 0.18, 0, 2);
+}
+
+/* Caixas de turno (FlowPane) */
+.flow-pane {
+    -fx-background-color: #31572C;
+    -fx-background-radius: 12px;
+    -fx-padding: 7 16 7 16;
+    -fx-hgap: 8;
+    -fx-vgap: 3;
+    -fx-alignment: center;
+    -fx-border-radius: 13px;
+}
+
+/* Destaque no turno atual */
+.destacado {
+    -fx-background-color: #90A955;     /* verde-limão forte */
+    -fx-border-color: #4F772D;         /* verde médio */
+    -fx-border-width: 2.5px;
+    -fx-effect: dropshadow(gaussian, #ecf39e77, 18, 0.39, 0, 3);
+}
+
+/* Label para nome do jogador */
+#lblBranco, #lblPreto {
+    -fx-font-size: 21px;
+    -fx-font-weight: 800;
+    -fx-text-fill: #ECF39E;
+    -fx-padding: 0 12 0 12;
+    -fx-background-radius: 7px;
+    -fx-background-color: transparent;
+    -fx-font-family: "Press Start 2P";
+}
+
+#lblTempoBranco, #lblTempoPreto {
+    -fx-font-size: 17px;
+    -fx-text-fill: #90A955;
+    -fx-background-color: transparent;
+    -fx-padding: 0 10 0 10;
+    -fx-font-family: "Press Start 2P";
+}
+
+/* Destaques de jogada */
+.highlight-cell {
+    -fx-fill: #90a95577;         /* verde-limão translúcido */
+    -fx-stroke: #4f772dcc;       /* verde médio */
+    -fx-stroke-width: 2px;
+    -fx-arc-width: 24px;
+    -fx-arc-height: 24px;
+    -fx-effect: dropshadow(gaussian, #90a95555, 18, 0.25, 0, 0);
+}
+
+.capture-cell {
+    -fx-fill: #31572cbb;         /* verde escuro mais forte */
+    -fx-stroke: #132a13cc;       /* quase preto */
+    -fx-stroke-width: 2.5px;
+    -fx-arc-width: 28px;
+    -fx-arc-height: 28px;
+    -fx-effect: dropshadow(gaussian, #90a95566, 18, 0.32, 0, 0);
 }

@@ -88,6 +88,9 @@ public class MenuController implements Initializable {
     Media som = new Media(getClass().getResource("/resources/sound/trumpet.wav").toExternalForm());
     MediaPlayer player = new MediaPlayer(som);
 
+    Media mudarMenu = new Media(getClass().getResource("/resources/sound/Retro11.wav").toExternalForm());
+    MediaPlayer player2 = new MediaPlayer(mudarMenu);
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         menu.sceneProperty().addListener((obs, oldScene, newScene) -> {
@@ -99,20 +102,40 @@ public class MenuController implements Initializable {
         });
 
         arrow1.setOpacity(0);
-        menuItem1.setOnMouseEntered(e -> arrow1.setOpacity(1));
+        menuItem1.setOnMouseEntered(e -> {
+            arrow1.setOpacity(1);
+            tocarSomMenu();
+        });
         menuItem1.setOnMouseExited(e -> arrow1.setOpacity(0));
 
         arrow2.setOpacity(0);
-        menuItem2.setOnMouseEntered(e -> arrow2.setOpacity(1));
+        menuItem2.setOnMouseEntered(e -> {
+            arrow2.setOpacity(1);
+            tocarSomMenu();
+        });
         menuItem2.setOnMouseExited(e -> arrow2.setOpacity(0));
 
         arrow3.setOpacity(0);
-        menuItem3.setOnMouseEntered(e -> arrow3.setOpacity(1));
+        menuItem3.setOnMouseEntered(e -> {
+            arrow3.setOpacity(1);
+            tocarSomMenu();
+        });
         menuItem3.setOnMouseExited(e -> arrow3.setOpacity(0));
 
         arrow4.setOpacity(0);
-        menuItem4.setOnMouseEntered(e -> arrow4.setOpacity(1));
+        menuItem4.setOnMouseEntered(e -> {
+            arrow4.setOpacity(1);
+            tocarSomMenu();
+        });
         menuItem4.setOnMouseExited(e -> arrow4.setOpacity(0));
+    }
+
+// Método para tocar o som do menu (player2)
+    private void tocarSomMenu() {
+        if (player2 != null) {
+            player2.stop();  // para evitar som sobreposto
+            player2.play();
+        }
     }
 
     @FXML

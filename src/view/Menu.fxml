@@ -22,12 +22,12 @@
             <VBox alignment="CENTER" maxWidth="350" prefWidth="250.0" spacing="20.0" styleClass="menu-card">
                 
                 <HBox fx:id="menuItem1" alignment="CENTER_LEFT" spacing="10" styleClass="menu-item">
-                    <Label id="arrow1" fx:id="arrow1" alignment="CENTER" minWidth="32.0" text="➜">
+                    <Label id="arrow1" fx:id="arrow1" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="32.0" text="➜">
                         <font>
                             <Font size="22.0" />
                         </font>
                     </Label>
-                    <Button fx:id="jogarIA" onAction="#handleJogarIA" prefHeight="45.0" prefWidth="200.0" styleClass="btn" text="Jogo vs IA">
+                    <Button fx:id="jogarIA" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#handleJogarIA" prefHeight="45.0" prefWidth="200.0" styleClass="btn" text="Jogo vs IA">
                   <font>
                      <Font size="15.0" />
                   </font></Button>
@@ -37,12 +37,12 @@
                 </HBox>
                 
                 <HBox fx:id="menuItem2" alignment="CENTER_LEFT" spacing="10" styleClass="menu-item">
-                    <Label id="arrow2" fx:id="arrow2" alignment="CENTER" minWidth="32.0" text="➜">
+                    <Label id="arrow2" fx:id="arrow2" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="32.0" text="➜">
                         <font>
                             <Font size="22.0" />
                         </font>
                     </Label>
-                    <Button fx:id="jogarLocal" onAction="#handleJogarLocal" prefHeight="45.0" prefWidth="200.0" styleClass="btn" text="Jogo Local">
+                    <Button fx:id="jogarLocal" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#handleJogarLocal" prefHeight="45.0" prefWidth="200.0" styleClass="btn" text="Jogo Local">
                   <font>
                      <Font size="15.0" />
                   </font></Button>
@@ -51,12 +51,12 @@
                </VBox.margin>
                 </HBox>
                 <HBox fx:id="menuItem3" alignment="CENTER_LEFT" spacing="10" styleClass="menu-item">
-                    <Label id="arrow3" fx:id="arrow3" alignment="CENTER" minWidth="32.0" text="➜">
+                    <Label id="arrow3" fx:id="arrow3" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="32.0" text="➜">
                         <font>
                             <Font size="22.0" />
                         </font>
                     </Label>
-                    <Button fx:id="opcoes" onAction="#handleOpcoes" prefHeight="45.0" prefWidth="200.0" styleClass="btn" text="Opções">
+                    <Button fx:id="opcoes" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#handleOpcoes" prefHeight="45.0" prefWidth="200.0" styleClass="btn" text="Opções">
                   <font>
                      <Font size="15.0" />
                   </font></Button>
@@ -66,12 +66,12 @@
                 </HBox>
                 
                 <HBox fx:id="menuItem4" alignment="CENTER_LEFT" spacing="10" styleClass="menu-item">
-                    <Label id="arrow4" fx:id="arrow4" alignment="CENTER" minWidth="32.0" text="➜">
+                    <Label id="arrow4" fx:id="arrow4" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="32.0" text="➜">
                         <font>
                             <Font size="22.0" />
                         </font>
                     </Label>
-                    <Button fx:id="sair" onAction="#handleSair" prefHeight="45.0" prefWidth="200.0" styleClass="btn" text="Sair">
+                    <Button fx:id="sair" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#handleSair" prefHeight="45.0" prefWidth="200.0" styleClass="btn" text="Sair">
                   <font>
                      <Font size="15.0" />
                   </font></Button>
