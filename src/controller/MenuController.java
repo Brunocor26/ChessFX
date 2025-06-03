@@ -26,6 +26,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.stage.Modality;
+
 
 /**
  * FXML Controller class
@@ -193,36 +195,32 @@ public class MenuController implements Initializable {
         stage.close(); // Fecha a janela
     }
 
-    @FXML
-    public void handleOpcoes(ActionEvent event) {
-        // Array de temas de peças
-        String[] temasPecas = {"Normal", "Outline", "Wood"};
-        String[] tabuleiros = {"Blue", "Brown", "Green"};
+@FXML
+    public void handleOpcoes(ActionEvent event) throws IOException {
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ThemeSelector.fxml"));
+    Parent root = loader.load();
 
-        // Dialog para peças
-        javafx.scene.control.ChoiceDialog<String> dialogPecas = new javafx.scene.control.ChoiceDialog<>(temasPecas[0], temasPecas);
-        dialogPecas.setTitle("Escolher Tema de Peças");
-        dialogPecas.setHeaderText("Escolha o tema das peças");
-        dialogPecas.setContentText("Temas disponíveis:");
+    Stage stage = new Stage();
+    stage.setTitle("Escolher Tema");
+    stage.setScene(new Scene(root));
+    stage.initModality(Modality.APPLICATION_MODAL);
 
-        dialogPecas.showAndWait().ifPresent(escolhidoPeca -> {
-            temaPecas = escolhidoPeca;
+    ThemeSelectorController controller = loader.getController();
+    controller.setTemaPecasAtual(temaPecas);
+    controller.setTemaTabuleiroAtual(temaTabuleiro);
 
-            // Depois de escolher peças, pede o tema do tabuleiro
-            javafx.scene.control.ChoiceDialog<String> dialogTab = new javafx.scene.control.ChoiceDialog<>(tabuleiros[0], tabuleiros);
-            dialogTab.setTitle("Escolher Tema de Tabuleiro");
-            dialogTab.setHeaderText("Escolha o tema do tabuleiro");
-            dialogTab.setContentText("Temas disponíveis:");
+    stage.showAndWait();
 
-            dialogTab.showAndWait().ifPresent(escolhidoTabuleiro -> {
-                temaTabuleiro = escolhidoTabuleiro;
+    // Atualizar tema com as escolhas do utilizador
+    if (controller.getTemaPecasSelecionado() != null && controller.getTemaTabuleiroSelecionado() != null) {
+        temaPecas = controller.getTemaPecasSelecionado();
+        temaTabuleiro = controller.getTemaTabuleiroSelecionado();
 
-                //atualizar
-                aplicarTemaPecas(temaPecas);
-                aplicarTemaTabuleiro(temaTabuleiro);
-            });
-        });
+        aplicarTemaPecas(temaPecas);
+        aplicarTemaTabuleiro(temaTabuleiro);
     }
+}
+
 
     public void aplicarTemaPecas(String temaPeca) {
         temaPecas = temaPeca.toLowerCase();

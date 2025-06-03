@@ -560,31 +560,57 @@ public class BoardController implements Initializable {
             this.c = c;
         }
     }
+    
+    private int valorPeca(Piece p) {
+    if (p == null) return 0;
+    switch (p.getClass().getSimpleName()) {
+        case "Queen": return 9;
+        case "Rook": return 5;
+        case "Bishop": return 3;
+        case "Knight": return 3;
+        case "Pawn": return 1;
+        case "King": return 1000; // Rei, valor alto para evitar capturar (mas é raro)
+        default: return 0;
+    }
+}
 
-    private void jogadaIA() {
-        List<Movimento> lista = new ArrayList<>();
-        for (int r = 0; r < 8; r++) {
-            for (int c = 0; c < 8; c++) {
-                Piece p = board[r][c];
-                if (p != null && "black".equals(p.getColor())) {
-                    for (int[] m : getLegalMoves(p)) {
-                        lista.add(new Movimento(p, m[0], m[1]));
+
+    
+private void jogadaIA() {
+    List<Movimento> lista = new ArrayList<>();
+    int melhorValor = Integer.MIN_VALUE;
+    Movimento melhorMovimento = null;
+
+    for (int r = 0; r < 8; r++) {
+        for (int c = 0; c < 8; c++) {
+            Piece p = board[r][c];
+            if (p != null && "black".equals(p.getColor())) {
+                for (int[] m : getLegalMoves(p)) {
+                    int destinoR = m[0];
+                    int destinoC = m[1];
+                    Piece capturada = board[destinoR][destinoC];
+                    int valor = valorPeca(capturada); // Valor da peça capturada, 0 se nenhuma
+
+                    if (valor > melhorValor) {
+                        melhorValor = valor;
+                        melhorMovimento = new Movimento(p, destinoR, destinoC);
                     }
                 }
             }
         }
-        if (lista.isEmpty()) {
-            fimDeJogo("Empate!");
-            return;
-        }
-        Movimento esc = lista.get(new Random().nextInt(lista.size()));
-        clearHighlights();
-        try {
-            movePiece(esc.p, esc.r, esc.c);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        verificarEstadoJogo();
-        mudarTurno();
     }
+    if (melhorMovimento == null) {
+        fimDeJogo("Empate!");
+        return;
+    }
+    clearHighlights();
+    try {
+        movePiece(melhorMovimento.p, melhorMovimento.r, melhorMovimento.c);
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    verificarEstadoJogo();
+    mudarTurno();
+}
+
 }

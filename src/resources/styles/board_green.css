@@ -1,7 +1,8 @@
 @font-face {
-    font-family: "Press Start 2P";
-    src: url("../fonts/PressStart2P-Regular.ttf");
+    font-family: 'PressStart2P';
+    src: url('/resources/fonts/PressStart2P-Regular.ttf');
 }
+
 
 /* Casas claras */
 .quadradosClaros {
