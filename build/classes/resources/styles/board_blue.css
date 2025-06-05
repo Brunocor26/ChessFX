@@ -1,8 +1,7 @@
 @font-face {
-    font-family: 'PressStart2P';
-    src: url('/resources/fonts/PressStart2P-Regular.ttf');
+    font-family: "Press Start 2P";
+    src: url("../fonts/PressStart2P-Regular.ttf");
 }
-
 
 /* Casas claras */
 .quadradosClaros {
@@ -16,12 +15,12 @@
 
 /* Fundo geral */
 .root, .border-pane, .grid-pane {
-    -fx-background-color: #BEE9E8;  /* azul claro */
+    -fx-background-color: #BEE9E8;
 }
 
 /* Mini-card arredondado, sombra flutuante */
 .border-pane {
-    -fx-background-color: #62B6CB;  /* azul médio */
+    -fx-background-color: #62B6CB;
     -fx-background-radius: 18px;
     -fx-border-radius: 18px;
     -fx-effect: dropshadow(gaussian, #1b496544, 16, 0.5, 0, 4);
@@ -33,7 +32,7 @@
     -fx-font-family: "Press Start 2P";
     -fx-font-size: 20px;
     -fx-font-weight: 700;
-    -fx-text-fill: #1B4965;   /* azul escuro */
+    -fx-text-fill: #1B4965;
     -fx-background-color: transparent;
     -fx-padding: 8 0 16 0;
     -fx-alignment: center;
@@ -63,7 +62,6 @@
     -fx-transition: 0.2s;
 }
 
-/* Destaque ao passar ou focar */
 .button:hover, .button:focused {
     -fx-background-color: #BEE9E8;
     -fx-border-color: #62B6CB;
@@ -86,7 +84,7 @@
 
 /* Cemitérios (VBox) */
 .vbox {
-    -fx-background-color: #CAE9FFcc; /* azul pastel translúcido */
+    -fx-background-color: #CAE9FFcc;
     -fx-background-radius: 12px;
     -fx-padding: 8 8 8 8;
     -fx-spacing: 5;
@@ -106,8 +104,8 @@
 
 /* Destaque no turno atual */
 .destacado {
-    -fx-background-color: #5FA8D3;     /* azul médio forte */
-    -fx-border-color: #1B4965;         /* azul escuro */
+    -fx-background-color: #5FA8D3;
+    -fx-border-color: #1B4965;
     -fx-border-width: 2.5px;
     -fx-effect: dropshadow(gaussian, #bee9e877, 18, 0.39, 0, 3);
 }
@@ -125,16 +123,19 @@
 
 #lblTempoBranco, #lblTempoPreto {
     -fx-font-size: 17px;
-    -fx-text-fill: #5FA8D3;
-    -fx-background-color: transparent;
-    -fx-padding: 0 10 0 10;
+    -fx-font-weight: 900;
+    -fx-text-fill: #0b2e48;
+    -fx-background-color: rgba(255, 255, 255, 0.75);
+    -fx-padding: 6 14 6 14;
+    -fx-background-radius: 12px;
+    -fx-effect: dropshadow(gaussian, rgba(11,46,72,0.7), 6, 0.3, 0, 2);
     -fx-font-family: "Press Start 2P";
 }
 
 /* Destaques de jogada */
 .highlight-cell {
-    -fx-fill: #5fa8d366;         /* azul médio translúcido */
-    -fx-stroke: #1b4965bb;       /* azul escuro */
+    -fx-fill: #5fa8d366;
+    -fx-stroke: #1b4965bb;
     -fx-stroke-width: 2px;
     -fx-arc-width: 24px;
     -fx-arc-height: 24px;
@@ -142,8 +143,8 @@
 }
 
 .capture-cell {
-    -fx-fill: #62b6cbcc;         /* azul mais saturado */
-    -fx-stroke: #1b4965cc;       /* azul escuro */
+    -fx-fill: #62b6cbcc;
+    -fx-stroke: #1b4965cc;
     -fx-stroke-width: 2.5px;
     -fx-arc-width: 28px;
     -fx-arc-height: 28px;

@@ -124,11 +124,11 @@
          </BorderPane.margin></VBox>
    </right>
    <bottom>
-      <FlowPane fx:id="caixaBranco" styleClass="flow-pane" BorderPane.alignment="CENTER">
+      <FlowPane fx:id="caixaBranco" styleClass="flow-pane" BorderPane.alignment="CENTER" prefHeight="40.0">
          <children>
-            <Button fx:id="btnResignBranco" minHeight="28.0" minWidth="34.0" mnemonicParsing="false" onAction="#handleDesistir" prefHeight="28.0" prefWidth="34.0">
+            <Button fx:id="btnResignBranco" minHeight="20.0" minWidth="30.0" mnemonicParsing="false" onAction="#handleDesistir" prefHeight="20.0" prefWidth="30.0">
                <graphic>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../resources/img/resign.png" />
                      </image>
@@ -138,21 +138,21 @@
             <Label fx:id="lblBranco" text="Branco" />
             <Label fx:id="lblTempoBranco" text="Tempo: 10:00">
                <FlowPane.margin>
-                  <Insets left="350.0" />
+                  <Insets left="150.0" />
                </FlowPane.margin>
             </Label>
          </children>
          <BorderPane.margin>
-            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
          </BorderPane.margin>
       </FlowPane>
    </bottom>
    <top>
-      <FlowPane fx:id="caixaPreto" alignment="CENTER_RIGHT" columnHalignment="RIGHT" styleClass="flow-pane" BorderPane.alignment="CENTER">
+      <FlowPane fx:id="caixaPreto" styleClass="flow-pane" BorderPane.alignment="CENTER" prefHeight="40.0">
          <children>
             <Label fx:id="lblTempoPreto" text="Tempo: 10:00">
                <FlowPane.margin>
-                  <Insets right="380.0" />
+                  <Insets right="150.0" />
                </FlowPane.margin>
             </Label>
             <Label fx:id="lblPreto" text="Preto">
@@ -160,9 +160,9 @@
                   <Insets />
                </FlowPane.margin>
             </Label>
-            <Button fx:id="btnResignPreto" minHeight="31.0" minWidth="39.0" mnemonicParsing="false" onAction="#handleDesistir" prefHeight="31.0" prefWidth="39.0">
+            <Button fx:id="btnResignPreto" minHeight="20.0" minWidth="30.0" mnemonicParsing="false" onAction="#handleDesistir" prefHeight="20.0" prefWidth="30.0">
                <graphic>
-                  <ImageView fitHeight="26.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../resources/img/resign.png" />
                      </image>
@@ -171,7 +171,7 @@
             </Button>
          </children>
          <BorderPane.margin>
-            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
          </BorderPane.margin>
       </FlowPane>
    </top>

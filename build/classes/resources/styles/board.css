@@ -1,8 +1,7 @@
 @font-face {
-    font-family: 'PressStart2P';
-    src: url('/resources/fonts/PressStart2P-Regular.ttf');
+    font-family: "Press Start 2P";
+    src: url("../fonts/PressStart2P-Regular.ttf");
 }
-
 
 /* Casas claras */
 .quadradosClaros {
@@ -63,7 +62,6 @@
     -fx-transition: 0.2s;
 }
 
-/* Destaque ao passar ou focar */
 .button:hover, .button:focused {
     -fx-background-color: #E6CCB2;
     -fx-border-color: #9C6644;
@@ -125,12 +123,16 @@
 
 #lblTempoBranco, #lblTempoPreto {
     -fx-font-size: 17px;
+    -fx-font-weight: 900;
     -fx-text-fill: #7F5539;
-    -fx-background-color: transparent;
-    -fx-padding: 0 10 0 10;
+    -fx-background-color: rgba(255, 255, 255, 0.75);
+    -fx-padding: 6 14 6 14;
+    -fx-background-radius: 12px;
+    -fx-effect: dropshadow(gaussian, rgba(11,46,72,0.7), 6, 0.3, 0, 2);
     -fx-font-family: "Press Start 2P";
 }
 
+/* Destaques de jogada */
 .highlight-cell {
     -fx-fill: #ddb89288;
     -fx-stroke: #b08968cc;
@@ -141,7 +143,7 @@
 }
 
 .capture-cell {
-    -fx-fill: #b08968cc;           /* Castanho-médio mais forte */
+    -fx-fill: #b08968cc;
     -fx-stroke: #7f5539cc;
     -fx-stroke-width: 2.5px;
     -fx-arc-width: 28px;
