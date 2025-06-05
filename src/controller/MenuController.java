@@ -28,7 +28,6 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Modality;
 
-
 /**
  * FXML Controller class
  *
@@ -195,32 +194,26 @@ public class MenuController implements Initializable {
         stage.close(); // Fecha a janela
     }
 
-@FXML
+    @FXML
     public void handleOpcoes(ActionEvent event) throws IOException {
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ThemeSelector.fxml"));
-    Parent root = loader.load();
-
-    Stage stage = new Stage();
-    stage.setTitle("Escolher Tema");
-    stage.setScene(new Scene(root));
-    stage.initModality(Modality.APPLICATION_MODAL);
-
-    ThemeSelectorController controller = loader.getController();
-    controller.setTemaPecasAtual(temaPecas);
-    controller.setTemaTabuleiroAtual(temaTabuleiro);
-
-    stage.showAndWait();
-
-    // Atualizar tema com as escolhas do utilizador
-    if (controller.getTemaPecasSelecionado() != null && controller.getTemaTabuleiroSelecionado() != null) {
-        temaPecas = controller.getTemaPecasSelecionado();
-        temaTabuleiro = controller.getTemaTabuleiroSelecionado();
-
-        aplicarTemaPecas(temaPecas);
-        aplicarTemaTabuleiro(temaTabuleiro);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Options.fxml"));
+        Parent root = loader.load();
+        Stage stage = new Stage();
+        stage.setTitle("Escolher Tema");
+        stage.setScene(new Scene(root));
+        stage.initModality(Modality.APPLICATION_MODAL);
+        OptionsController controller = loader.getController();
+        controller.setTemaPecasAtual(temaPecas);
+        controller.setTemaTabuleiroAtual(temaTabuleiro);
+        stage.showAndWait();
+        // Atualizar tema com as escolhas do utilizador
+        if (controller.getTemaPecasSelecionado() != null && controller.getTemaTabuleiroSelecionado() != null) {
+            temaPecas = controller.getTemaPecasSelecionado();
+            temaTabuleiro = controller.getTemaTabuleiroSelecionado();
+            aplicarTemaPecas(temaPecas);
+            aplicarTemaTabuleiro(temaTabuleiro);
+        }
     }
-}
-
 
     public void aplicarTemaPecas(String temaPeca) {
         temaPecas = temaPeca.toLowerCase();

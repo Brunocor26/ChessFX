@@ -1,6 +1,6 @@
 @font-face {
     font-family: "Press Start 2P";
-    src: url("../fonts/PressStart2P-Regular.ttf"); /* certifica-te de que o .ttf está em /resources/fonts */
+    src: url("../fonts/PressStart2P-Regular.ttf"); 
 }
 
 .root {

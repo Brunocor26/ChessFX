@@ -21,10 +21,15 @@ import models.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
+import javafx.event.ActionEvent;
 
 public class BoardController implements Initializable {
 
     // Elementos FXML
+    @FXML
+    private Button btnResignBranco;
+    @FXML
+    private Button btnResignPreto;
     @FXML
     private BorderPane pane;
     @FXML
@@ -260,126 +265,192 @@ public class BoardController implements Initializable {
         caixa.getChildren().add(imgView);
     }
 
-    private void movePiece(Piece piece, int newRow, int newCol) throws IOException {
-    int oldRow = piece.getRow();
-    int oldCol = piece.getCol();
-    Piece destino = board[newRow][newCol];
+    void movePiece(Piece piece, int newRow, int newCol) throws IOException {
+        int oldRow = piece.getRow();
+        int oldCol = piece.getCol();
+        Piece destino = board[newRow][newCol];
 
-    // -------- EN PASSANT --------
-    boolean isEnPassant = false;
-    if (piece instanceof Pawn && destino == null && newCol != oldCol &&
-            Pawn.enPassantVulnerablePawn != null &&
-            Pawn.enPassantVulnerablePawn.getRow() == oldRow &&
-            Pawn.enPassantVulnerablePawn.getCol() == newCol) {
-        isEnPassant = true;
-        destino = Pawn.enPassantVulnerablePawn;
-        // Remove peão capturado da matriz e UI
-        board[oldRow][newCol] = null;
-        StackPane capturedCell = (StackPane) boardGrid.getChildren().get(oldRow * 8 + newCol);
-        capturedCell.getChildren().removeIf(node -> node instanceof ImageView);
-        if (destino.getColor().equals("white")) {
-            mostrarCapturada(destino, cemiterioBranco);
-        } else {
-            mostrarCapturada(destino, cemiterioPreto);
+        // -------- ROQUE -------------
+        if (piece instanceof King && Math.abs(newCol - oldCol) == 2) {
+            // Roque pequeno (lado do rei)
+            if (newCol == 6) {
+                Piece rook = board[oldRow][7];
+                if (rook instanceof Rook && rook.getColor().equals(piece.getColor())) {
+                    // Remove torre da posição antiga
+                    board[oldRow][7] = null;
+                    StackPane rookOldCell = (StackPane) boardGrid.getChildren().get(oldRow * 8 + 7);
+                    rookOldCell.getChildren().removeIf(node -> node instanceof ImageView);
+
+                    // Move torre para a coluna 5
+                    rook.setRow(oldRow);
+                    rook.setCol(5);
+                    board[oldRow][5] = rook;
+
+                    StackPane rookNewCell = (StackPane) boardGrid.getChildren().get(oldRow * 8 + 5);
+                    String imagePathRook = "/resources/img/" + temaPecas + "/" + rook.getImageName();
+                    Image imageRook = new Image(getClass().getResourceAsStream(imagePathRook));
+                    ImageView rookImageView = new ImageView(imageRook);
+                    rookImageView.setFitWidth(60);
+                    rookImageView.setFitHeight(60);
+                    rookImageView.setPreserveRatio(true);
+                    rookNewCell.getChildren().add(rookImageView);
+
+                    if (rook instanceof Rook) {
+                        ((Rook) rook).hasMoved();
+                    }
+                }
+            } // Roque grande (lado da dama)
+            else if (newCol == 2) {
+                Piece rook = board[oldRow][0];
+                if (rook instanceof Rook && rook.getColor().equals(piece.getColor())) {
+                    // Remove torre da posição antiga
+                    board[oldRow][0] = null;
+                    StackPane rookOldCell = (StackPane) boardGrid.getChildren().get(oldRow * 8 + 0);
+                    rookOldCell.getChildren().removeIf(node -> node instanceof ImageView);
+
+                    // Move torre para a coluna 3
+                    rook.setRow(oldRow);
+                    rook.setCol(3);
+                    board[oldRow][3] = rook;
+
+                    StackPane rookNewCell = (StackPane) boardGrid.getChildren().get(oldRow * 8 + 3);
+                    String imagePathRook = "/resources/img/" + temaPecas + "/" + rook.getImageName();
+                    Image imageRook = new Image(getClass().getResourceAsStream(imagePathRook));
+                    ImageView rookImageView = new ImageView(imageRook);
+                    rookImageView.setFitWidth(60);
+                    rookImageView.setFitHeight(60);
+                    rookImageView.setPreserveRatio(true);
+                    rookNewCell.getChildren().add(rookImageView);
+
+                    if (rook instanceof Rook) {
+                        ((Rook) rook).hasMoved();
+                    }
+                }
+            }
         }
-    }
 
-    // -------- CAPTURA NORMAL --------
-    if (!isEnPassant && destino != null && !destino.getColor().equals(piece.getColor())) {
-        tocarSom(somCaptura);
-        if (destino.getColor().equals("white")) {
-            mostrarCapturada(destino, cemiterioBranco);
-        } else {
-            mostrarCapturada(destino, cemiterioPreto);
+        // -------- EN PASSANT --------
+        boolean isEnPassant = false;
+        if (piece instanceof Pawn && destino == null && newCol != oldCol
+                && Pawn.enPassantVulnerablePawn != null
+                && Pawn.enPassantVulnerablePawn.getRow() == oldRow
+                && Pawn.enPassantVulnerablePawn.getCol() == newCol) {
+            isEnPassant = true;
+            destino = Pawn.enPassantVulnerablePawn;
+            board[oldRow][newCol] = null;
+            StackPane capturedCell = (StackPane) boardGrid.getChildren().get(oldRow * 8 + newCol);
+            capturedCell.getChildren().removeIf(node -> node instanceof ImageView);
+            if (destino.getColor().equals("white")) {
+                mostrarCapturada(destino, cemiterioBranco);
+            } else {
+                mostrarCapturada(destino, cemiterioPreto);
+            }
         }
-    } else {
-        tocarSom(somMexer);
-    }
 
-    // Remove peça antiga da célula
-    StackPane oldCell = (StackPane) boardGrid.getChildren().get(oldRow * 8 + oldCol);
-    oldCell.getChildren().removeIf(node -> node instanceof ImageView);
-    board[oldRow][oldCol] = null;
+        // -------- CAPTURA NORMAL --------
+        if (!isEnPassant && destino != null && !destino.getColor().equals(piece.getColor())) {
+            tocarSom(somCaptura);
+            if (destino.getColor().equals("white")) {
+                mostrarCapturada(destino, cemiterioBranco);
+            } else {
+                mostrarCapturada(destino, cemiterioPreto);
+            }
+        } else {
+            tocarSom(somMexer);
+        }
 
-    // -------- PROMOÇÃO --------
-    boolean isPawnPromotion = piece instanceof Pawn
-            && ((piece.getColor().equals("white") && newRow == 0)
-            || (piece.getColor().equals("black") && newRow == 7));
-    if (isPawnPromotion) {
+        // Remove peça antiga da célula
+        StackPane oldCell = (StackPane) boardGrid.getChildren().get(oldRow * 8 + oldCol);
+        oldCell.getChildren().removeIf(node -> node instanceof ImageView);
+        board[oldRow][oldCol] = null;
+
+        // -------- PROMOÇÃO --------
+        boolean isPawnPromotion = piece instanceof Pawn
+                && ((piece.getColor().equals("white") && newRow == 0)
+                || (piece.getColor().equals("black") && newRow == 7));
+        if (isPawnPromotion) {
+            piece.setRow(newRow);
+            piece.setCol(newCol);
+            Pawn.enPassantVulnerablePawn = null;
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Promotion.fxml"));
+            Parent root = loader.load();
+            Stage popupStage = new Stage();
+            popupStage.initStyle(StageStyle.TRANSPARENT);
+            popupStage.setAlwaysOnTop(true);
+            Scene popupScene = new Scene(root);
+            popupScene.setFill(Color.TRANSPARENT);
+            popupStage.setScene(popupScene);
+            PromotionController controller = loader.getController();
+            controller.receberTemaPeca(temaPecas, piece.getColor());
+            controller.setStage(popupStage);
+            StackPane peaoCell = (StackPane) boardGrid.getChildren().get(newRow * 8 + newCol);
+            javafx.geometry.Point2D coords = peaoCell.localToScreen(peaoCell.getWidth() / 2, peaoCell.getHeight() / 2);
+            double popupWidth = 270;
+            double popupHeight = 80;
+            popupStage.setX(coords.getX() - popupWidth / 2);
+            popupStage.setY(coords.getY() - popupHeight / 2);
+            popupStage.initModality(Modality.APPLICATION_MODAL);
+            popupStage.showAndWait();
+            String novoTipo = controller.getPecaEscolhida();
+            Piece novaPeca;
+            switch (novoTipo) {
+                case "Rook":
+                    novaPeca = new Rook(piece.getColor(), newRow, newCol);
+                    break;
+                case "Bishop":
+                    novaPeca = new Bishop(piece.getColor(), newRow, newCol);
+                    break;
+                case "Knight":
+                    novaPeca = new Knight(piece.getColor(), newRow, newCol);
+                    break;
+                default:
+                    novaPeca = new Queen(piece.getColor(), newRow, newCol);
+            }
+            board[newRow][newCol] = novaPeca;
+            StackPane promoCell = (StackPane) boardGrid.getChildren().get(newRow * 8 + newCol);
+            promoCell.getChildren().removeIf(node -> node instanceof ImageView);
+            String imagePath = "/resources/img/" + temaPecas + "/" + novaPeca.getImageName();
+            Image image = new Image(getClass().getResourceAsStream(imagePath));
+            ImageView pieceImageView = new ImageView(image);
+            pieceImageView.setFitWidth(60);
+            pieceImageView.setFitHeight(60);
+            pieceImageView.setPreserveRatio(true);
+            promoCell.getChildren().add(pieceImageView);
+            return;
+        }
+
+        // Atualiza posição do piece
         piece.setRow(newRow);
         piece.setCol(newCol);
-        Pawn.enPassantVulnerablePawn = null; // limpa en passant
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Promotion.fxml"));
-        Parent root = loader.load();
-        Stage popupStage = new Stage();
-        popupStage.initStyle(StageStyle.TRANSPARENT);
-        popupStage.setAlwaysOnTop(true);
-        Scene popupScene = new Scene(root);
-        popupScene.setFill(javafx.scene.paint.Color.TRANSPARENT);
-        popupStage.setScene(popupScene);
-        PromotionController controller = loader.getController();
-        controller.receberTemaPeca(temaPecas, piece.getColor());
-        controller.setStage(popupStage);
-        StackPane peaoCell = (StackPane) boardGrid.getChildren().get(newRow * 8 + newCol);
-        javafx.geometry.Point2D coords = peaoCell.localToScreen(peaoCell.getWidth() / 2, peaoCell.getHeight() / 2);
-        double popupWidth = 270;
-        double popupHeight = 80;
-        popupStage.setX(coords.getX() - popupWidth / 2);
-        popupStage.setY(coords.getY() - popupHeight / 2);
-        popupStage.initModality(Modality.APPLICATION_MODAL);
-        popupStage.showAndWait();
-        String novoTipo = controller.getPecaEscolhida();
-        Piece novaPeca;
-        switch (novoTipo) {
-            case "Rook":
-                novaPeca = new Rook(piece.getColor(), newRow, newCol);
-                break;
-            case "Bishop":
-                novaPeca = new Bishop(piece.getColor(), newRow, newCol);
-                break;
-            case "Knight":
-                novaPeca = new Knight(piece.getColor(), newRow, newCol);
-                break;
-            default:
-                novaPeca = new Queen(piece.getColor(), newRow, newCol);
+
+        // Atualiza en passant
+        if (piece instanceof Pawn && Math.abs(newRow - oldRow) == 2) {
+            Pawn.enPassantVulnerablePawn = (Pawn) piece;
+        } else {
+            Pawn.enPassantVulnerablePawn = null;
         }
-        board[newRow][newCol] = novaPeca;
-        StackPane promoCell = (StackPane) boardGrid.getChildren().get(newRow * 8 + newCol);
-        promoCell.getChildren().removeIf(node -> node instanceof ImageView);
-        String imagePath = "/resources/img/" + temaPecas + "/" + novaPeca.getImageName();
+
+        // Marca que rei ou torre já mexeram
+        if (piece instanceof King) {
+            ((King) piece).hasMoved();
+        }
+        if (piece instanceof Rook) {
+            ((Rook) piece).hasMoved();
+        }
+
+        // Atualiza UI da peça movida
+        StackPane newCell = (StackPane) boardGrid.getChildren().get(newRow * 8 + newCol);
+        newCell.getChildren().removeIf(node -> node instanceof ImageView);
+        board[newRow][newCol] = piece;
+        String imagePath = "/resources/img/" + temaPecas + "/" + piece.getImageName();
         Image image = new Image(getClass().getResourceAsStream(imagePath));
         ImageView pieceImageView = new ImageView(image);
         pieceImageView.setFitWidth(60);
         pieceImageView.setFitHeight(60);
         pieceImageView.setPreserveRatio(true);
-        promoCell.getChildren().add(pieceImageView);
-        return;
+        newCell.getChildren().add(pieceImageView);
     }
 
-    // -------- ATUALIZAR POSIÇÃO PEÃO (depois da promoção!) --------
-    piece.setRow(newRow);
-    piece.setCol(newCol);
-
-    // -------- EN PASSANT: marca vulnerável se peão moveu 2 casas --------
-    if (piece instanceof Pawn && Math.abs(newRow - oldRow) == 2) {
-        Pawn.enPassantVulnerablePawn = (Pawn) piece;
-    } else {
-        Pawn.enPassantVulnerablePawn = null;
-    }
-
-    // -------- ATUALIZAR PEÇA E UI --------
-    StackPane newCell = (StackPane) boardGrid.getChildren().get(newRow * 8 + newCol);
-    newCell.getChildren().removeIf(node -> node instanceof ImageView);
-    board[newRow][newCol] = piece;
-    String imagePath = "/resources/img/" + temaPecas + "/" + piece.getImageName();
-    Image image = new Image(getClass().getResourceAsStream(imagePath));
-    ImageView pieceImageView = new ImageView(image);
-    pieceImageView.setFitWidth(60);
-    pieceImageView.setFitHeight(60);
-    pieceImageView.setPreserveRatio(true);
-    newCell.getChildren().add(pieceImageView);
-}
-    
     // === Lógica de cheque, cheque-mate e fim de jogo ===
     private void verificarEstadoJogo() {
         String corOponente = turnoBranco ? "black" : "white";
@@ -560,57 +631,120 @@ public class BoardController implements Initializable {
             this.c = c;
         }
     }
-    
-    private int valorPeca(Piece p) {
-    if (p == null) return 0;
-    switch (p.getClass().getSimpleName()) {
-        case "Queen": return 9;
-        case "Rook": return 5;
-        case "Bishop": return 3;
-        case "Knight": return 3;
-        case "Pawn": return 1;
-        case "King": return 1000; // Rei, valor alto para evitar capturar (mas é raro)
-        default: return 0;
-    }
-}
 
+    private void jogadaIA() {
+        List<Movimento> lista = new ArrayList<>();
+        int melhorValor = Integer.MIN_VALUE;
+        Movimento melhorMovimento = null;
 
-    
-private void jogadaIA() {
-    List<Movimento> lista = new ArrayList<>();
-    int melhorValor = Integer.MIN_VALUE;
-    Movimento melhorMovimento = null;
+        for (int r = 0; r < 8; r++) {
+            for (int c = 0; c < 8; c++) {
+                Piece p = board[r][c];
+                if (p != null && "black".equals(p.getColor())) {
+                    for (int[] m : getLegalMoves(p)) {
+                        int destinoR = m[0];
+                        int destinoC = m[1];
+                        Piece capturada = board[destinoR][destinoC];
+                        int valor = valorPeca(capturada); // Valor da peça capturada, 0 se nenhuma
 
-    for (int r = 0; r < 8; r++) {
-        for (int c = 0; c < 8; c++) {
-            Piece p = board[r][c];
-            if (p != null && "black".equals(p.getColor())) {
-                for (int[] m : getLegalMoves(p)) {
-                    int destinoR = m[0];
-                    int destinoC = m[1];
-                    Piece capturada = board[destinoR][destinoC];
-                    int valor = valorPeca(capturada); // Valor da peça capturada, 0 se nenhuma
-
-                    if (valor > melhorValor) {
-                        melhorValor = valor;
-                        melhorMovimento = new Movimento(p, destinoR, destinoC);
+                        if (valor > melhorValor) {
+                            melhorValor = valor;
+                            melhorMovimento = new Movimento(p, destinoR, destinoC);
+                        }
                     }
                 }
             }
         }
+        if (melhorMovimento == null) {
+            fimDeJogo("Empate!");
+            return;
+        }
+        clearHighlights();
+        try {
+            movePiece(melhorMovimento.p, melhorMovimento.r, melhorMovimento.c);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        verificarEstadoJogo();
+        mudarTurno();
     }
-    if (melhorMovimento == null) {
-        fimDeJogo("Empate!");
-        return;
-    }
-    clearHighlights();
-    try {
-        movePiece(melhorMovimento.p, melhorMovimento.r, melhorMovimento.c);
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
-    verificarEstadoJogo();
-    mudarTurno();
-}
 
+    @FXML
+    private void handleDesistir(ActionEvent event) {
+        if (gameOver) {
+            return;
+        }
+
+        Button btn = (Button) event.getSource();
+        String corDesistente = null;
+        String corVencedor = null;
+
+        if (btn.equals(btnResignBranco)) {
+            corDesistente = "Branco";
+            corVencedor = "Preto";
+        } else if (btn.equals(btnResignPreto)) {
+            corDesistente = "Preto";
+            corVencedor = "Branco";
+        }
+
+        if (corDesistente != null) {
+            final String corDesistenteFinal = corDesistente;
+            final String corVencedorFinal = corVencedor;
+
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmação de Desistência");
+            alert.setHeaderText("O jogador " + corDesistenteFinal + " vai desistir.");
+            alert.setContentText("Tem a certeza que deseja desistir do jogo?");
+
+            alert.showAndWait().ifPresent(response -> {
+                if (response == ButtonType.OK) {
+                    gameOver = true;
+                    if (timeline != null) {
+                        timeline.stop();
+                    }
+
+                    Alert aviso = new Alert(Alert.AlertType.INFORMATION);
+                    aviso.setTitle("Fim de Jogo");
+                    aviso.setHeaderText(null);
+                    aviso.setContentText("Jogador " + corDesistenteFinal + " desistiu. Jogador " + corVencedorFinal + " vence!");
+                    aviso.showAndWait();
+
+                    voltarAoMenu();
+                }
+            });
+        }
+    }
+
+    private int valorPeca(Piece p) {
+
+        if (p == null) {
+            return 0;
+        }
+
+        switch (p.getClass().getSimpleName()) {
+
+            case "Queen":
+                return 9;
+
+            case "Rook":
+                return 5;
+
+            case "Bishop":
+                return 3;
+
+            case "Knight":
+                return 3;
+
+            case "Pawn":
+                return 1;
+
+            case "King":
+                return 1000; // Rei, valor alto para evitar capturar (mas é raro)
+
+            default:
+                return 0;
+
+        }
+
+    }
 }

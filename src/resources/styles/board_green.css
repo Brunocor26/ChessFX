@@ -1,31 +1,30 @@
 @font-face {
-    font-family: 'PressStart2P';
-    src: url('/resources/fonts/PressStart2P-Regular.ttf');
+    font-family: "Press Start 2P";
+    src: url("../fonts/PressStart2P-Regular.ttf");
 }
-
 
 /* Casas claras */
 .quadradosClaros {
-    -fx-fill: #ECF39E;   /* verde-limão claro da paleta */
+    -fx-fill: #D4E9A7;   /* verde claro pastel, mais suave */
 }
 
 /* Casas escuras */
 .quadradosEscuro {
-    -fx-fill: #31572C;   /* verde escuro */
+    -fx-fill: #2A4D1D;   /* verde escuro profundo */
 }
 
 /* Fundo geral */
 .root, .border-pane, .grid-pane {
-    -fx-background-color: #132A13;  /* fundo escuro */
+    -fx-background-color: #1E3814; /* verde muito escuro, quase preto */
 }
 
 /* Mini-card arredondado, sombra flutuante */
 .border-pane {
-    -fx-background-color: #4F772D;  /* verde médio */
-    -fx-background-radius: 18px;
-    -fx-border-radius: 18px;
-    -fx-effect: dropshadow(gaussian, #31572c44, 16, 0.5, 0, 4);
-    -fx-padding: 24 32 24 32;
+    -fx-background-color: #3F6E1F; /* verde médio vivo */
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-effect: dropshadow(gaussian, rgba(63,110,31,0.6), 20, 0.4, 0, 6);
+    -fx-padding: 26 36 26 36;
 }
 
 /* Label elegante */
@@ -33,17 +32,17 @@
     -fx-font-family: "Press Start 2P";
     -fx-font-size: 20px;
     -fx-font-weight: 700;
-    -fx-text-fill: #90A955;    /* verde limão (destaque) */
+    -fx-text-fill: #B9D572;    /* verde limão suave e iluminado */
     -fx-background-color: transparent;
-    -fx-padding: 8 0 16 0;
+    -fx-padding: 10 0 18 0;
     -fx-alignment: center;
 }
 
 /* Grid com espaçamento entre peças */
 .grid-pane {
-    -fx-hgap: 6;
-    -fx-vgap: 6;
-    -fx-padding: 12;
+    -fx-hgap: 8;
+    -fx-vgap: 8;
+    -fx-padding: 14;
     -fx-background-color: transparent;
 }
 
@@ -51,101 +50,102 @@
 .button {
     -fx-background-color: transparent;
     -fx-border-color: transparent;
-    -fx-min-width: 62px;
-    -fx-min-height: 62px;
-    -fx-max-width: 68px;
-    -fx-max-height: 68px;
-    -fx-background-radius: 40px;
-    -fx-border-radius: 40px;
+    -fx-min-width: 64px;
+    -fx-min-height: 64px;
+    -fx-max-width: 70px;
+    -fx-max-height: 70px;
+    -fx-background-radius: 44px;
+    -fx-border-radius: 44px;
     -fx-cursor: hand;
-    -fx-padding: 2;
-    -fx-effect: dropshadow(gaussian, #90a95544, 6, 0.32, 0, 1);
-    -fx-transition: 0.2s;
+    -fx-padding: 3;
+    -fx-effect: dropshadow(gaussian, rgba(185,213,114,0.35), 7, 0.28, 0, 2);
+    -fx-transition: 0.22s;
 }
 
-/* Destaque ao passar ou focar */
 .button:hover, .button:focused {
-    -fx-background-color: #ECF39E;
-    -fx-border-color: #90A955;
-    -fx-border-width: 2px;
-    -fx-effect: dropshadow(gaussian, #90a95566, 12, 0.36, 0, 2);
-    -fx-scale-x: 1.09;
-    -fx-scale-y: 1.09;
+    -fx-background-color: #D4E9A7;
+    -fx-border-color: #7CAA2D;
+    -fx-border-width: 2.5px;
+    -fx-effect: dropshadow(gaussian, rgba(124,170,45,0.55), 14, 0.4, 0, 3);
+    -fx-scale-x: 1.12;
+    -fx-scale-y: 1.12;
 }
 
 /* Peça: sombra e animação */
 .image-view {
-    -fx-effect: dropshadow(gaussian, #4f772d70, 11, 0.40, 0, 2);
+    -fx-effect: dropshadow(gaussian, rgba(63,110,31,0.45), 13, 0.45, 0, 3);
     -fx-background-color: transparent;
-    -fx-padding: 3;
-    -fx-transition: 0.18s;
+    -fx-padding: 4;
+    -fx-transition: 0.2s;
 }
 .image-view:hover {
-    -fx-effect: dropshadow(gaussian, #90a955aa, 18, 0.55, 0, 3);
+    -fx-effect: dropshadow(gaussian, rgba(185,213,114,0.8), 22, 0.6, 0, 4);
 }
 
 /* Cemitérios (VBox) */
 .vbox {
-    -fx-background-color: #4F772Dcc; /* verde médio translúcido */
-    -fx-background-radius: 12px;
-    -fx-padding: 8 8 8 8;
-    -fx-spacing: 5;
-    -fx-effect: dropshadow(gaussian, #31572c44, 8, 0.18, 0, 2);
+    -fx-background-color: #3F6E1FCC; /* verde médio translúcido */
+    -fx-background-radius: 14px;
+    -fx-padding: 10 10 10 10;
+    -fx-spacing: 6;
+    -fx-effect: dropshadow(gaussian, rgba(63,110,31,0.3), 10, 0.22, 0, 3);
 }
 
 /* Caixas de turno (FlowPane) */
 .flow-pane {
-    -fx-background-color: #31572C;
-    -fx-background-radius: 12px;
-    -fx-padding: 7 16 7 16;
-    -fx-hgap: 8;
-    -fx-vgap: 3;
+    -fx-background-color: #2A4D1D;
+    -fx-background-radius: 14px;
+    -fx-padding: 9 20 9 20;
+    -fx-hgap: 10;
+    -fx-vgap: 4;
     -fx-alignment: center;
-    -fx-border-radius: 13px;
+    -fx-border-radius: 15px;
 }
 
 /* Destaque no turno atual */
 .destacado {
-    -fx-background-color: #90A955;     /* verde-limão forte */
-    -fx-border-color: #4F772D;         /* verde médio */
-    -fx-border-width: 2.5px;
-    -fx-effect: dropshadow(gaussian, #ecf39e77, 18, 0.39, 0, 3);
+    -fx-background-color: #B9D572;     /* verde limão forte */
+    -fx-border-color: #3F6E1F;         /* verde médio escuro */
+    -fx-border-width: 3px;
+    -fx-effect: dropshadow(gaussian, rgba(185,213,114,0.5), 22, 0.42, 0, 4);
 }
 
 /* Label para nome do jogador */
 #lblBranco, #lblPreto {
-    -fx-font-size: 21px;
-    -fx-font-weight: 800;
-    -fx-text-fill: #ECF39E;
-    -fx-padding: 0 12 0 12;
-    -fx-background-radius: 7px;
+    -fx-font-size: 22px;
+    -fx-font-weight: 900;
+    -fx-text-fill: #D4E9A7;
+    -fx-padding: 0 14 0 14;
+    -fx-background-radius: 8px;
     -fx-background-color: transparent;
     -fx-font-family: "Press Start 2P";
 }
 
+/* Label tempo */
 #lblTempoBranco, #lblTempoPreto {
     -fx-font-size: 17px;
-    -fx-text-fill: #90A955;
+    -fx-font-weight: 900;
+    -fx-text-fill: #7CAA2D;
     -fx-background-color: transparent;
-    -fx-padding: 0 10 0 10;
+    -fx-padding: 0 12 0 12;
     -fx-font-family: "Press Start 2P";
 }
 
 /* Destaques de jogada */
 .highlight-cell {
-    -fx-fill: #90a95577;         /* verde-limão translúcido */
-    -fx-stroke: #4f772dcc;       /* verde médio */
-    -fx-stroke-width: 2px;
-    -fx-arc-width: 24px;
-    -fx-arc-height: 24px;
-    -fx-effect: dropshadow(gaussian, #90a95555, 18, 0.25, 0, 0);
+    -fx-fill: #B9D57288;         /* verde limão translúcido */
+    -fx-stroke: #3F6E1DCC;       /* verde médio escuro */
+    -fx-stroke-width: 2.2px;
+    -fx-arc-width: 26px;
+    -fx-arc-height: 26px;
+    -fx-effect: dropshadow(gaussian, rgba(185,213,114,0.45), 20, 0.3, 0, 0);
 }
 
 .capture-cell {
-    -fx-fill: #31572cbb;         /* verde escuro mais forte */
-    -fx-stroke: #132a13cc;       /* quase preto */
-    -fx-stroke-width: 2.5px;
-    -fx-arc-width: 28px;
-    -fx-arc-height: 28px;
-    -fx-effect: dropshadow(gaussian, #90a95566, 18, 0.32, 0, 0);
+    -fx-fill: #2A4D1DBB;         /* verde escuro translúcido */
+    -fx-stroke: #1E3813CC;       /* quase preto */
+    -fx-stroke-width: 2.7px;
+    -fx-arc-width: 30px;
+    -fx-arc-height: 30px;
+    -fx-effect: dropshadow(gaussian, rgba(124,170,45,0.5), 20, 0.35, 0, 0);
 }

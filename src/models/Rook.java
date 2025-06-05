@@ -4,10 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Rook extends Piece {
+    public Boolean firstMove=true;
 
     // Construtor
     public Rook(String color, int row, int col) {
         super("Rook", color, row, col);
+    }
+    
+    public void hasMoved(){
+        this.firstMove=false;
+    }
+    
+    public Boolean isFirstMove(){
+        return this.firstMove;
     }
 
     @Override
