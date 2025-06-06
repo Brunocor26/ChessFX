@@ -27,29 +27,17 @@ public class BoardController implements Initializable {
 
     // Elementos FXML
     @FXML
-    private Button btnResignBranco;
-    @FXML
-    private Button btnResignPreto;
+    private Button btnResignBranco, btnResignPreto;
     @FXML
     private BorderPane pane;
     @FXML
     private GridPane boardGrid;
     @FXML
-    private FlowPane caixaBranco;
+    private FlowPane caixaBranco, caixaPreto;
     @FXML
-    private FlowPane caixaPreto;
+    private Label lblBranco, lblPreto, lblTempoBranco, lblTempoPreto;
     @FXML
-    private Label lblBranco;
-    @FXML
-    private Label lblPreto;
-    @FXML
-    private Label lblTempoBranco;
-    @FXML
-    private Label lblTempoPreto;
-    @FXML
-    private VBox cemiterioPreto;
-    @FXML
-    private VBox cemiterioBranco;
+    private VBox cemiterioPreto, cemiterioBranco;
 
     private final List<Rectangle> highlightRects = new ArrayList<>();
     private final Piece[][] board = new Piece[8][8];
@@ -61,13 +49,21 @@ public class BoardController implements Initializable {
     private boolean vsIa = false;
     private boolean gameOver = false;
 
-    private Media somMexer, somCaptura;
+    private Media somMexer, somCaptura, somFim;
 
     // ---- Relógio ----
     private int tempoBranco = 10 * 60; // 10 minutos em segundos
     private int tempoPreto = 10 * 60;  // 10 minutos em segundos
     private Timeline timeline;
 
+    /**
+     * Método initialize que é o primeiro a ser executado, logo quando o fxml é
+     * carregado, vai buscar os ficheiros dos sons, e aplica o tema escolhido
+     * pelo utilizador no menu, atualiza as labels de tempo e inicia o relógio.
+     *
+     * @param url
+     * @param rb
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
@@ -85,39 +81,55 @@ public class BoardController implements Initializable {
         });
     }
 
-    // ----- Relógio -----
+    /**
+     * Método para atualizar as labels de tempo, definindo o texto de cada label
+     */
     private void atualizarLabelsTempo() {
         lblTempoBranco.setText("Tempo: " + formatarTempo(tempoBranco));
         lblTempoPreto.setText("Tempo: " + formatarTempo(tempoPreto));
     }
 
+    /**
+     * Recebe o total de segundos e converte em minutos e segundos.
+     *
+     * @param totalSegundos Número a converter/formatar.
+     * @return
+     */
     private String formatarTempo(int totalSegundos) {
         int minutos = totalSegundos / 60;
         int segundos = totalSegundos % 60;
         return String.format("%02d:%02d", minutos, segundos);
     }
 
+    /**
+     * Inicia o relógio do jogo e atualiza as labels de tempo de cada jogador a
+     * cada segundo. Se o tempo de um jogador for 0 (ou menor) declara o game
+     * over, mostra a mensagem de vitória e acaba o jogo.
+     */
     private void iniciarRelogio() {
-        timeline = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
-            if (!gameOver) {
+        timeline = new Timeline(new KeyFrame(Duration.seconds(1), e -> { //nova timeline que executa uma keyframe a cada segundo, a propria keyframe gera um evento e executa a cada segundo
+            if (!gameOver) { //se jogo nao acabou, decrementa
                 if (turnoBranco) {
                     tempoBranco--;
                 } else {
                     tempoPreto--;
                 }
-                atualizarLabelsTempo();
-                if (tempoBranco <= 0 || tempoPreto <= 0) {
+                atualizarLabelsTempo(); //atualiza rotulos
+                if (tempoBranco <= 0 || tempoPreto <= 0) { //verifica se algum dos jogadores acabou o tempo
                     gameOver = true;
                     timeline.stop();
                     mostrarMensagem("Tempo esgotado! " + (tempoBranco <= 0 ? "Preto" : "Branco") + " vence.");
                 }
             }
         }));
-        timeline.setCycleCount(Animation.INDEFINITE);
-        timeline.play();
+        timeline.setCycleCount(Animation.INDEFINITE); //diz que o relogio é infinito e so para manualmente
+        timeline.play();  //comeca
     }
 
-    // ------ Inicializar tabuleiro e peças -----
+    /**
+     * Inicializa o tabuleiro colocando as peças de cada jogador nas posições
+     * iniciais.
+     */
     public void inicializarTabuleiro() {
         String[] cores = {"white", "black"};
         for (int i = 0; i <= 7; i++) {
@@ -142,24 +154,44 @@ public class BoardController implements Initializable {
         addPiece(new King(cores[0], 7, 4));
     }
 
+    /**
+     * Método que mete as peças no tabuleiro. Usa a variavel global com o tema
+     * da peca para definir o caminho para a imagem.
+     *
+     * @param piece
+     */
     private void addPiece(Piece piece) {
-        int row = piece.getRow();
-        int col = piece.getCol();
-        board[row][col] = piece;
+        int row = piece.getRow(); //linha onde deve ser colocada
+        int col = piece.getCol(); //coluna
+        board[row][col] = piece;  //colocar na matriz
         String imagePath = "/resources/img/" + temaPecas + "/" + piece.getImageName();
         Image image = new Image(getClass().getResourceAsStream(imagePath));
         ImageView pieceImageView = new ImageView(image);
         pieceImageView.setFitWidth(60);
         pieceImageView.setFitHeight(60);
         pieceImageView.setPreserveRatio(true);
-        StackPane cell = (StackPane) boardGrid.getChildren().get(row * 8 + col);
-        cell.getChildren().add(pieceImageView);
+        StackPane cell = (StackPane) boardGrid.getChildren().get(row * 8 + col);  //boardgrid é o tabuleiro, que tem 1 stackpane por celula
+        cell.getChildren().add(pieceImageView); //adiciona a imagem à stackpane
     }
 
+    /**
+     * Devolve a peça que está na posição indicada.
+     *
+     * @param row
+     * @param col
+     * @return
+     */
     private Piece getPieceAtPosition(int row, int col) {
         return board[row][col];
     }
 
+    /**
+     * Função que determina os movimentos possíveis de uma peça na situação
+     * atual do tabuleiro e as coloca numa ArrayList.
+     *
+     * @param piece
+     * @return
+     */
     private List<int[]> getLegalMoves(Piece piece) {
         List<int[]> legalMoves = new ArrayList<>();
         for (int[] move : piece.getValidMoves(board)) {
@@ -170,13 +202,22 @@ public class BoardController implements Initializable {
         return legalMoves;
     }
 
+    /**
+     * O listener que lida com os cliques numa célula do tabuleiro, está
+     * associada a todos os membros do gridpane. Os eventos que acontecem são:
+     * limpar highlights que estejam anteriormente colocados, e mostrar os
+     * movimentos possíveis da peça escolhida.
+     *
+     * @param event
+     * @throws IOException
+     */
     @FXML
     private void onCellClicked(MouseEvent event) throws IOException {
         if (gameOver) {
             return;
         }
 
-        Node clickedNode = (Node) event.getTarget();
+        Node clickedNode = (Node) event.getTarget(); //extrai node clicado
         while (clickedNode != null && !(clickedNode instanceof StackPane)) {
             clickedNode = clickedNode.getParent();
         }
@@ -209,6 +250,9 @@ public class BoardController implements Initializable {
         }
     }
 
+    /**
+     * Método para mostrar os movimentos válidos de uma peça selecionada.
+     */
     private void showValidMoves() {
         clearHighlights();
         if (selectedPiece == null) {
@@ -236,6 +280,9 @@ public class BoardController implements Initializable {
         }
     }
 
+    /**
+     * Limpa os destaques atuais do tabuleiro.
+     */
     private void clearHighlights() {
         for (Rectangle rect : highlightRects) {
             Pane parent = (Pane) rect.getParent();
@@ -246,6 +293,11 @@ public class BoardController implements Initializable {
         highlightRects.clear();
     }
 
+    /**
+     * Função para tocar som a partir de uma "media".
+     *
+     * @param media
+     */
     private void tocarSom(Media media) {
         if (media == null) {
             return;
@@ -255,6 +307,12 @@ public class BoardController implements Initializable {
         player.setOnEndOfMedia(() -> player.dispose());
     }
 
+    /**
+     * Mostra uma peça que foi capturada no cemitério do seu jogador
+     *
+     * @param peca
+     * @param caixa
+     */
     private void mostrarCapturada(Piece peca, VBox caixa) {
         String imagePath = "/resources/img/" + temaPecas + "/" + peca.getImageName();
         Image image = new Image(getClass().getResourceAsStream(imagePath));
@@ -265,6 +323,15 @@ public class BoardController implements Initializable {
         caixa.getChildren().add(imgView);
     }
 
+    /**
+     * Função que lida com o movimento das peças. Lida com: captura, roque
+     * (grande e pequeno), en passant e promoção de peão.
+     *
+     * @param piece
+     * @param newRow
+     * @param newCol
+     * @throws IOException
+     */
     void movePiece(Piece piece, int newRow, int newCol) throws IOException {
         int oldRow = piece.getRow();
         int oldCol = piece.getCol();
@@ -451,7 +518,9 @@ public class BoardController implements Initializable {
         newCell.getChildren().add(pieceImageView);
     }
 
-    // === Lógica de cheque, cheque-mate e fim de jogo ===
+    /**
+     * Função que deteta cheque e cheque-mate.
+     */
     private void verificarEstadoJogo() {
         String corOponente = turnoBranco ? "black" : "white";
         if (reiEmCheck(corOponente)) {
@@ -463,6 +532,12 @@ public class BoardController implements Initializable {
         }
     }
 
+    /**
+     * Calcula se o rei está em cheque-mate.
+     *
+     * @param color
+     * @return
+     */
     private boolean estaEmCheckMate(String color) {
         for (int r = 0; r < 8; r++) {
             for (int c = 0; c < 8; c++) {
@@ -477,6 +552,12 @@ public class BoardController implements Initializable {
         return true;
     }
 
+    /**
+     * Calcula se o rei está em cheque.
+     *
+     * @param color
+     * @return
+     */
     private boolean reiEmCheck(String color) {
         int kr = -1, kc = -1;
         for (int r = 0; r < 8; r++) {
@@ -508,6 +589,14 @@ public class BoardController implements Initializable {
         return false;
     }
 
+    /**
+     * Calcula se um movimento futuro deixaria o rei em cheque.
+     *
+     * @param p
+     * @param dr
+     * @param dc
+     * @return
+     */
     private boolean deixaReiEmCheck(Piece p, int dr, int dc) {
         Piece cap = board[dr][dc];
         int or = p.getRow(), oc = p.getCol();
@@ -523,23 +612,38 @@ public class BoardController implements Initializable {
         return check;
     }
 
+    /**
+     * Mostra um alterta com uma mensagem.
+     *
+     * @param txt
+     */
     private void mostrarMensagem(String txt) {
         Alert a = new Alert(Alert.AlertType.INFORMATION, txt, ButtonType.OK);
         a.setHeaderText(null);
         a.show();
     }
 
+    /**
+     * Define o fim de jogo com um alerta adequado e som.
+     *
+     * @param mensagem
+     */
     private void fimDeJogo(String mensagem) {
         gameOver = true;
         if (timeline != null) {
             timeline.stop();
         }
+        somFim = new Media(getClass().getResource("/resources/sound/game-end.mp3").toExternalForm());
+        tocarSom(somFim);
         Alert a = new Alert(Alert.AlertType.INFORMATION, mensagem, ButtonType.OK);
         a.setHeaderText(null);
         a.showAndWait();
         voltarAoMenu();
     }
 
+    /**
+     * Função para voltar à view anterior (menu inicial).
+     */
     private void voltarAoMenu() {
         try {
             URL url = getClass().getResource("/view/Menu.fxml");
@@ -556,19 +660,38 @@ public class BoardController implements Initializable {
     }
 
     // ----------- Métodos para tema e IA -----------
+    /**
+     * Usado pelo menu para passar o valor do tema das peças escolhido.
+     *
+     * @param tema
+     */
     public void receberTemaPecas(String tema) {
         this.temaPecas = tema;
     }
 
+    /**
+     * Usado pelo menu para passar o valor do tema do tabuleiro escolhido.
+     *
+     * @param tema
+     */
     public void receberTemaTabuleiro(String tema) {
         this.temaTabuleiro = tema;
         aplicarTemaTabuleiro();
     }
 
+    /**
+     * Usado pelo menu para passar se a escolha do jogador for jogar vs IA.
+     *
+     * @param tema
+     */
     public void jogarVSIA(Boolean res) {
         this.vsIa = res;
     }
 
+    /**
+     * Aplica o tema do tabuleiro (castanho, azul ou verde) escolhendo o css
+     * adequado.
+     */
     private void aplicarTemaTabuleiro() {
         try {
             String css = "board";
@@ -703,6 +826,8 @@ public class BoardController implements Initializable {
                         timeline.stop();
                     }
 
+                    somFim = new Media(getClass().getResource("/resources/sound/game-end.mp3").toExternalForm());
+                    tocarSom(somFim);
                     Alert aviso = new Alert(Alert.AlertType.INFORMATION);
                     aviso.setTitle("Fim de Jogo");
                     aviso.setHeaderText(null);
@@ -739,7 +864,7 @@ public class BoardController implements Initializable {
                 return 1;
 
             case "King":
-                return 1000; // Rei, valor alto para evitar capturar (mas é raro)
+                return 1000; // Rei
 
             default:
                 return 0;

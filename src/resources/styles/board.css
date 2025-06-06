@@ -16,21 +16,22 @@
 /* Fundo geral */
 .root, .border-pane, .grid-pane {
     -fx-background-color: #EDE0D4;
+    -fx-padding: 10px;  /* Menor preenchimento */
 }
 
 /* Mini-card arredondado, sombra flutuante */
 .border-pane {
     -fx-background-color: #DDB892;
-    -fx-background-radius: 18px;
-    -fx-border-radius: 18px;
+    -fx-background-radius: 12px;  /* Menor raio */
+    -fx-border-radius: 12px;     /* Menor raio */
     -fx-effect: dropshadow(gaussian, #B0896826, 16, 0.5, 0, 4);
-    -fx-padding: 24 32 24 32;
+    -fx-padding: 16px 24px 16px 24px;  /* Menos preenchimento */
 }
 
 /* Label elegante */
 .label {
     -fx-font-family: "Press Start 2P";
-    -fx-font-size: 20px;
+    -fx-font-size: 18px;  /* Diminuir o tamanho da fonte */
     -fx-font-weight: 700;
     -fx-text-fill: #7F5539;
     -fx-background-color: transparent;
@@ -40,20 +41,19 @@
 
 /* Grid com espaçamento entre peças */
 .grid-pane {
-    -fx-hgap: 6;
-    -fx-vgap: 6;
-    -fx-padding: 12;
-    -fx-background-color: transparent;
+    -fx-hgap: 4;  /* Menor espaçamento entre as células */
+    -fx-vgap: 4;  /* Menor espaçamento entre as células */
+    -fx-padding: 10;  /* Menor preenchimento */
 }
 
 /* Botões de peças (se usados) */
 .button {
     -fx-background-color: transparent;
     -fx-border-color: transparent;
-    -fx-min-width: 62px;
-    -fx-min-height: 62px;
-    -fx-max-width: 68px;
-    -fx-max-height: 68px;
+    -fx-min-width: 50px;   /* Reduzir a largura mínima */
+    -fx-min-height: 50px;  /* Reduzir a altura mínima */
+    -fx-max-width: 55px;   /* Reduzir a largura máxima */
+    -fx-max-height: 55px;  /* Reduzir a altura máxima */
     -fx-background-radius: 40px;
     -fx-border-radius: 40px;
     -fx-cursor: hand;
@@ -62,7 +62,7 @@
     -fx-transition: 0.2s;
 }
 
-.button:hover, .button:focused {
+.button:hover {
     -fx-background-color: #E6CCB2;
     -fx-border-color: #9C6644;
     -fx-border-width: 2px;
@@ -85,7 +85,7 @@
 /* Cemitérios (VBox) */
 .vbox {
     -fx-background-color: #EDE0D4CC;
-    -fx-background-radius: 12px;
+    -fx-background-radius: 10px;  /* Menor raio */
     -fx-padding: 8 8 8 8;
     -fx-spacing: 5;
     -fx-effect: dropshadow(gaussian, #9c664426, 8, 0.18, 0, 2);
@@ -94,12 +94,12 @@
 /* Caixas de turno (FlowPane) */
 .flow-pane {
     -fx-background-color: #9C6644;
-    -fx-background-radius: 12px;
-    -fx-padding: 7 16 7 16;
-    -fx-hgap: 8;
-    -fx-vgap: 3;
+    -fx-background-radius: 10px;   /* Menor raio */
+    -fx-padding: 5 12 5 12;        /* Menos preenchimento */
+    -fx-hgap: 5;                   /* Menor espaçamento horizontal */
+    -fx-vgap: 2;                   /* Menor espaçamento vertical */
     -fx-alignment: center;
-    -fx-border-radius: 13px;
+    -fx-border-radius: 10px;
 }
 
 /* Destaque no turno atual */
@@ -112,7 +112,7 @@
 
 /* Label para nome do jogador */
 #lblBranco, #lblPreto {
-    -fx-font-size: 21px;
+    -fx-font-size: 18px;  /* Diminuir o tamanho da fonte */
     -fx-font-weight: 800;
     -fx-text-fill: #52311e;
     -fx-padding: 0 12 0 12;
@@ -122,7 +122,7 @@
 }
 
 #lblTempoBranco, #lblTempoPreto {
-    -fx-font-size: 17px;
+    -fx-font-size: 14px;  /* Diminuir o tamanho da fonte */
     -fx-font-weight: 900;
     -fx-text-fill: #7F5539;
     -fx-background-color: rgba(255, 255, 255, 0.75);

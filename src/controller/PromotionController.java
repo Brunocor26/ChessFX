@@ -9,6 +9,8 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 public class PromotionController implements Initializable {
     
@@ -40,6 +42,8 @@ public class PromotionController implements Initializable {
     private String corPeca;
     private String pecaEscolhida = "Queen"; // Valor padrão
     private Stage stage;
+    
+    private Media somPromocao=new Media(getClass().getResource("/resources/sound/promote.mp3").toExternalForm());
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -69,26 +73,43 @@ public class PromotionController implements Initializable {
     @FXML
     public void handleBtnRook(ActionEvent action) {
         pecaEscolhida = "Rook";
+        tocarSom(somPromocao);
         if (stage != null) stage.close();
     }
     @FXML
     public void handleBtnQueen(ActionEvent action) {
         pecaEscolhida = "Queen";
+        tocarSom(somPromocao);
         if (stage != null) stage.close();
     }
     @FXML
     public void handleBtnBishop(ActionEvent action) {
         pecaEscolhida = "Bishop";
+        tocarSom(somPromocao);
         if (stage != null) stage.close();
     }
     @FXML
     public void handleBtnKnight(ActionEvent action) {
         pecaEscolhida = "Knight";
+        tocarSom(somPromocao);
         if (stage != null) stage.close();
     }
 
     // Para devolver a escolha ao chamador
     public String getPecaEscolhida() {
         return pecaEscolhida;
+    }
+    
+        /**
+     * Função para tocar som a partir de uma "media".
+     * @param media 
+     */
+    private void tocarSom(Media media) {
+        if (media == null) {
+            return;
+        }
+        MediaPlayer player = new MediaPlayer(media);
+        player.play();
+        player.setOnEndOfMedia(() -> player.dispose());
     }
 }

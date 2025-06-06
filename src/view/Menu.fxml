@@ -11,10 +11,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="menu" prefHeight="500.0" prefWidth="800.0" styleClass="menu" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MenuController">
+<BorderPane fx:id="menu" prefHeight="500.0" prefWidth="800.0" styleClass="menu" stylesheets="@../resources/styles/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MenuController">
 
     <top>
-        <Label id="title-label" text="XADREZ" BorderPane.alignment="CENTER" />
+        <Label id="title-label" text="XADREZ" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets left="10.0" />
+         </BorderPane.margin></Label>
     </top>
 
     <center>

@@ -99,6 +99,9 @@ public class MenuController implements Initializable {
                 // Limpa e aplica o CSS so quando carregar a scene
                 newScene.getStylesheets().clear();
                 newScene.getStylesheets().add(getClass().getResource("/resources/styles/styles.css").toExternalForm());
+                imgReiPreto.setPreserveRatio(true);
+                imgReiBranco.setPreserveRatio(true);
+                
             }
         });
 
