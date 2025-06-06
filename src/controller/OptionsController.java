@@ -25,7 +25,7 @@ public class OptionsController {
         // Preenche os combobox com os temas disponíveis
         comboBoxPecas.getItems().addAll("Normal", "Outline", "Wood");
         comboBoxTabuleiro.getItems().addAll("Blue", "Brown", "Green");
-        // Opcional: definir valores padrão
+        // Definir valores padrão
         comboBoxPecas.getSelectionModel().selectFirst();
         comboBoxTabuleiro.getSelectionModel().selectFirst();
         // Definir ação dos botões

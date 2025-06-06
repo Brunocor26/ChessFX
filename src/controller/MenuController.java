@@ -1,6 +1,8 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
+ * FXML Controller class para o menu principal do jogo de xadrez.
+ * Controla a interação do menu, troca de temas, sons e navegação entre as telas.
+ * 
+ * @author bfc27
  */
 package controller;
 
@@ -29,12 +31,12 @@ import javafx.scene.media.MediaPlayer;
 import javafx.stage.Modality;
 
 /**
- * FXML Controller class
- *
- * @author bfc27
+ * Controlador responsável pela interação com o menu principal, incluindo a navegação entre telas,
+ * a aplicação de temas, e a execução de sons ao interagir com o menu.
  */
 public class MenuController implements Initializable {
 
+    // Elementos do FXML
     @FXML
     private Label arrow1;
 
@@ -83,28 +85,45 @@ public class MenuController implements Initializable {
     @FXML
     private BorderPane menu;
 
+    // Variáveis para armazenar temas de peças e tabuleiro
     private String temaPecas = "normal";
     private String temaTabuleiro = "Brown";
 
+    // Sons do menu
     Media som = new Media(getClass().getResource("/resources/sound/trumpet.wav").toExternalForm());
     MediaPlayer player = new MediaPlayer(som);
 
     Media mudarMenu = new Media(getClass().getResource("/resources/sound/Retro11.wav").toExternalForm());
     MediaPlayer player2 = new MediaPlayer(mudarMenu);
 
+    /**
+     * Inicializa o controlador. Aplica o CSS e configura a interação com os itens de menu.
+     * 
+     * @param url
+     * @param rb
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        // Adiciona o CSS quando a cena for carregada
         menu.sceneProperty().addListener((obs, oldScene, newScene) -> {
             if (newScene != null) {
-                // Limpa e aplica o CSS so quando carregar a scene
+                // Limpa e aplica o CSS
                 newScene.getStylesheets().clear();
                 newScene.getStylesheets().add(getClass().getResource("/resources/styles/styles.css").toExternalForm());
                 imgReiPreto.setPreserveRatio(true);
                 imgReiBranco.setPreserveRatio(true);
-                
             }
         });
 
+        // Configura a interação de mouse para os itens do menu com as setas
+        setupMenuItemInteractions();
+    }
+
+    /**
+     * Configura as interações de rato para os itens do menu, exibindo as setas ao passar.
+     */
+    private void setupMenuItemInteractions() {
+        // Configura a interação com os itens de menu para mostrar as setas
         arrow1.setOpacity(0);
         menuItem1.setOnMouseEntered(e -> {
             arrow1.setOpacity(1);
@@ -134,16 +153,24 @@ public class MenuController implements Initializable {
         menuItem4.setOnMouseExited(e -> arrow4.setOpacity(0));
     }
 
-// Método para tocar o som do menu (player2)
+    /**
+     * Toca o som ao passar o rato sobre os itens do menu.
+     */
     private void tocarSomMenu() {
         if (player2 != null) {
-            player2.stop();  // para evitar som sobreposto
+            player2.stop();  // Para evitar som sobreposto
             player2.play();
         }
     }
 
+    /**
+     * Inicia o jogo contra a IA ao clicar no botão "Jogo vs IA".
+     * 
+     * @param event
+     * @throws IOException Caso ocorra um erro ao carregar a nova janela.
+     */
     @FXML
-    public void handleJogarIA(ActionEvent event) throws IOException { //ia da moves aleatorios
+    public void handleJogarIA(ActionEvent event) throws IOException {
         player.play();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/BoardView.fxml"));
         Parent root = loader.load();
@@ -158,15 +185,22 @@ public class MenuController implements Initializable {
         controller.receberTemaPecas(temaPecas);
         controller.receberTemaTabuleiro(temaTabuleiro);
         controller.jogarVSIA(true);
-        controller.inicializarTabuleiro(); //aqui para garantir que ja tem o tema e peças corretos
+        controller.inicializarTabuleiro(); // Inicializa o tabuleiro com o tema e peças corretos
 
+        // Fecha a janela atual
         Stage stageAtual = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stageAtual.close();
 
-        // Mostrar a nova janela
+        // Mostra a nova janela
         stage.show();
     }
 
+    /**
+     * Inicia o jogo local ao clicar no botão "Jogo Local".
+     * 
+     * @param event
+     * @throws
+     */
     @FXML
     public void handleJogarLocal(ActionEvent event) throws IOException {
         player.play();
@@ -182,21 +216,32 @@ public class MenuController implements Initializable {
 
         controller.receberTemaPecas(temaPecas);
         controller.receberTemaTabuleiro(temaTabuleiro);
-        controller.inicializarTabuleiro(); //aqui para garantir que ja tem o tema e peças corretos
+        controller.inicializarTabuleiro(); // Inicializa o tabuleiro com o tema e peças corretos
 
+        // Fecha a janela atual
         Stage stageAtual = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stageAtual.close();
 
-        // Mostrar a nova janela
+        // Mostra a nova janela
         stage.show();
     }
 
+    /**
+     * Fecha a janela atual e termina a aplicação.
+     * 
+     * @param event
+     */
     public void handleSair(ActionEvent event) {
-        // Fecha a janela atual e termina a aplicação
         Stage stage = (Stage) sair.getScene().getWindow(); // Obtém a janela atual
         stage.close(); // Fecha a janela
     }
 
+    /**
+     * Abre a janela de opções para escolher o tema das peças e do tabuleiro.
+     * 
+     * @param event
+     * @throws IOException Caso ocorra um erro ao carregar a janela de opções.
+     */
     @FXML
     public void handleOpcoes(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Options.fxml"));
@@ -209,6 +254,7 @@ public class MenuController implements Initializable {
         controller.setTemaPecasAtual(temaPecas);
         controller.setTemaTabuleiroAtual(temaTabuleiro);
         stage.showAndWait();
+        
         // Atualizar tema com as escolhas do utilizador
         if (controller.getTemaPecasSelecionado() != null && controller.getTemaTabuleiroSelecionado() != null) {
             temaPecas = controller.getTemaPecasSelecionado();
@@ -218,16 +264,18 @@ public class MenuController implements Initializable {
         }
     }
 
+    /**
+     * Aplica o tema das peças selecionado pelo utilizador.
+     * 
+     * @param temaPeca O nome do tema das peças.
+     */
     public void aplicarTemaPecas(String temaPeca) {
         temaPecas = temaPeca.toLowerCase();
         String base = "/resources/img/" + temaPeca.toLowerCase() + "/";
         String reiBrancoPath = base + "white_King.png";
         String reiPretoPath = base + "black_King.png";
 
-        // DEBUG
-        System.out.println("A tentar carregar: " + reiBrancoPath + " e " + reiPretoPath);
-
-        // Rei
+        // Tenta carregar as imagens dos reis
         try {
             Image ReiBranco = new Image(getClass().getResourceAsStream(reiBrancoPath));
             imgReiPreto.setImage(ReiBranco);
@@ -235,7 +283,6 @@ public class MenuController implements Initializable {
             System.err.println("Erro ao carregar a imagem do Rei: " + reiBrancoPath);
             e.printStackTrace();
         }
-        // Rainha
         try {
             Image Rainha = new Image(getClass().getResourceAsStream(reiPretoPath));
             imgReiBranco.setImage(Rainha);
@@ -245,9 +292,12 @@ public class MenuController implements Initializable {
         }
     }
 
+    /**
+     * Aplica o tema do tabuleiro selecionado pelo utilizador.
+     * 
+     * @param tema O nome do tema do tabuleiro.
+     */
     public void aplicarTemaTabuleiro(String tema) {
-
-        // mudar fundo do menu (azul, castanho, verde)
         switch (tema) {
             case "Blue":
                 menu.getScene().getStylesheets().clear();
@@ -255,7 +305,6 @@ public class MenuController implements Initializable {
                 break;
 
             case "Brown":
-                //fica igual (default)
                 menu.getScene().getStylesheets().clear();
                 menu.getScene().getStylesheets().add(getClass().getResource("/resources/styles/styles.css").toExternalForm());
                 break;
@@ -267,7 +316,7 @@ public class MenuController implements Initializable {
         }
     }
 
-    // Getters para usar em outro sitio se preciso
+    // Getters para aceder a temas de peças e tabuleiro
     public String getTemaPecas() {
         return temaPecas;
     }
